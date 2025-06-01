@@ -5,30 +5,27 @@ include_once 'tax_compute/function2.php';
 $yearnow = $_GET['yearnow'];
 $branchid = $_GET['branchid'];
 
-$monthfrom = 1;
-$monthto = 3;
 
-$date_from = $yearnow.'-'.$monthfrom.'-1';
-$number_of_days = date("t", strtotime("$yearnow-$monthto-1"));
-$date_to = $yearnow.'-'.$monthto.'-'.$number_of_days;
+$quarter1_data = fetch_per_quarter_data($pdo,$yearnow,$branchid,1,3,1);
+$quarter2_data = fetch_per_quarter_data($pdo,$yearnow,$branchid,4,6,2);
+$quarter3_data = fetch_per_quarter_data($pdo,$yearnow,$branchid,7,9,3);
+$quarter4_data = fetch_per_quarter_data($pdo,$yearnow,$branchid,10,12,4);
 
-
-
-$check_quarter1 = $pdo->prepare("SELECT * FROM tb_tax_return_by_quarter WHERE quarter_num = '1' AND branch_id = '$branchid' AND year_num = '$yearnow' ");
-$check_quarter1->execute();
-$row_check_quarter1 = $check_quarter1->rowCount();
-
+// echo number_format($quarter1_data['calculated_risk_percent'],2).' - '.number_format($quarter1_data['calculated_risk_percent'],2);
+// echo '<br>';
+// echo $quarter1_data['payment_risk'];
 
 
 include_once 'tax_computation_vt_q1.php';
 // include_once 'tax_computation_vt_q2.php';
 // include_once 'tax_computation_vt_q3.php';
 // include_once 'tax_computation_vt_q4.php';
-
 // include_once 'tax_computation_it_q1.php';
 // include_once 'tax_computation_it_q2.php';
 // include_once 'tax_computation_it_q3.php';
 // include_once 'tax_computation_it_q4.php';
+
+
 
 
 ?>
