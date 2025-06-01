@@ -169,8 +169,9 @@ $less_deductions = $data_rr['total_vat_purchase'] + $data_rr['total_non_vat_purc
 <!-- ///////////// QUARTER 1 TAX RETURN  /////////// -->
 <div class="card card-default ">
 <!-- <div class="card card-default collapsed-card"> -->
-  <div class="card-header" style="background-color:rgba(12,25,60,255);">
-    <h3 class="card-title text-white" >QUARTER 1</h3>
+  <!-- <div class="card-header" style="background-color:rgba(12,25,60,255);"> -->
+    <div class="card-header" style="background-color:rgb(237,233,207,255);">
+    <h3 class="card-title text-black" >QUARTER 1</h3>
 
     <div class="card-tools">
       <button type="button" class="btn btn-tool" data-card-widget="collapse">
