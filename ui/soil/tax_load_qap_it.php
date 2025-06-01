@@ -117,8 +117,8 @@ function fetch_total_withheld($pdo,$branchid,$jandaysfrom,$jandaysto)
 
 <!-- ///////////// WITHHELD PURCHASES  /////////// -->
 <div class="card card-default collapsed-card">
-  <div class="card-header" style="background-color:rgba(12,25,60,255);">
-    <h3 class="card-title text-white" >PURCHASES</h3>
+  <div class="card-header" style="background-color:rgb(237,233,207,255);">
+    <h3 class="card-title text-black" >PURCHASES</h3>
 
     <div class="card-tools">
       <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -251,8 +251,8 @@ function fetch_total_withheld($pdo,$branchid,$jandaysfrom,$jandaysto)
 
 <!-- ///////////// WITHHELD PURCHASES  /////////// -->
 <div class="card card-default collapsed-card">
-  <div class="card-header" style="background-color:rgb(142, 8, 11, 1);">
-    <h3 class="card-title text-white" >VAT EXPENSE</h3>
+  <div class="card-header" style="background-color:rgb(237,233,207,255);">
+    <h3 class="card-title text-black" >VAT EXPENSE</h3>
 
     <div class="card-tools">
       <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -386,8 +386,8 @@ function fetch_total_withheld($pdo,$branchid,$jandaysfrom,$jandaysto)
 
 <!-- ///////////// WITHHELD PURCHASES  /////////// -->
 <div class="card card-default collapsed-card">
-  <div class="card-header" style="background-color:rgb(160, 64, 0);">
-    <h3 class="card-title text-white" >NON VAT EXPENSE</h3>
+  <div class="card-header" style="background-color:rgb(237,233,207,255);">
+    <h3 class="card-title text-black" >NON VAT EXPENSE</h3>
 
     <div class="card-tools">
       <button type="button" class="btn btn-tool" data-card-widget="collapse">
