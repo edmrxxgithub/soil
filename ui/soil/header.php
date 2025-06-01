@@ -466,14 +466,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                  <li class="nav-item">
                                   <a href="tax_vat_purchase.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>VAT Purchase</p>
+                                    <p>VAT Expense</p>
                                   </a>
                                 </li>
 
                                 <li class="nav-item">
                                   <a href="tax_non_vat_purchase.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>NONVAT Purchase</p>
+                                    <p>NonVat Expense</p>
                                   </a>
                                 </li>
                                 

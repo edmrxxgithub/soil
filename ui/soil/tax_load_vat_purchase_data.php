@@ -94,7 +94,7 @@ function fetch_supplier_data($pdo,$id)
 <table  border="1" width="100%">
             <tr align="center">
               <th colspan="9" style="background-color:rgb(237,233,207,255);">
-                <font class="text-black">VAT PURCHASE INVOICES <?= $yearnow ?></font>
+                <font class="text-black">VAT EXPENSE INVOICES <?= $yearnow ?></font>
               </th>
             </tr>
             

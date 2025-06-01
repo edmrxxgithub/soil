@@ -261,7 +261,7 @@ $data = fetch_data($pdo,$branchid);
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" id="custom-content-below-settings-tab" data-toggle="pill" href="#non_vat_purchase_data" role="tab" aria-controls="custom-content-below-settings" aria-selected="false">NONVAT Expense</a>
+      <a class="nav-link" id="custom-content-below-settings-tab" data-toggle="pill" href="#non_vat_purchase_data" role="tab" aria-controls="custom-content-below-settings" aria-selected="false">NonVAT Expense</a>
     </li>
 
 

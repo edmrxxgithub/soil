@@ -122,16 +122,16 @@ $userlevel_name = user_level($pdo,$row->user_level_id);
                                           <td style="font-weight: bold;" align="center"><font size="2">Business id</font></td>
                                           <td style="font-weight: bold;" align="center"><font size="2">Branch id</font></td>
 
-                                          <td style="font-weight: bold;" align="center"><font size="2">Client</font></td>
-                                          <td style="font-weight: bold;" align="center"><font size="2">Business</font></td>
-                                          <td style="font-weight: bold;" align="center"><font size="2">Branch</font></td>
+                                          <td style="font-weight: bold;" align="center"><font size="2">Client name</font></td>
+                                          <td style="font-weight: bold;" align="center"><font size="2">Business name</font></td>
+                                          <td style="font-weight: bold;" align="center"><font size="2">Branch location</font></td>
 
                                           <td style="font-weight: bold;" align="center"><font size="2">Gross</font></td>
                                           <td style="font-weight: bold;" align="center"><font size="2">Vat</font></td>
                                           <td style="font-weight: bold;" align="center"><font size="2">Vat net</font></td>
 
-                                          <td style="font-weight: bold;" align="center"><font size="2">Withhold(CWT)</font></td>
-                                          <td style="font-weight: bold;" align="center"><font size="2">Withhold(VWT)</font></td>
+                                          <td style="font-weight: bold;" align="center"><font size="2">C-withhold</font></td>
+                                          <td style="font-weight: bold;" align="center"><font size="2">V-withhold</font></td>
 
                                            <td style="font-weight: bold;" align="center"><font size="2">Collectible</font></td>
 
@@ -346,7 +346,7 @@ var sales_revenue_datatable = $('#sales_revenue_datatable').DataTable({
 
   "columnDefs": [
     {
-      "targets": [2, 3, 4],
+      "targets": [0,2, 3, 4],
       "visible": false,
       "searchable": true,
     },

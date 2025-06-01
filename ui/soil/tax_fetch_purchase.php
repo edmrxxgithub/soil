@@ -96,11 +96,11 @@ function fetch_sales_data($pdo,$id)
 					</center>';
 
 
-		$subdata[]= '<center>
-						<font class="text-black" size="2">
-							'.$row->date.'
-						</font>
-					</center>';
+		// $subdata[]= '<center>
+		// 				<font class="text-black" size="2">
+		// 					'.$row->date.'
+		// 				</font>
+		// 			</center>';
 
 		
 		$subdata[] = '<center><font style="color:rgb(6, 61, 119);" size="2">'.number_format($row->gross_amount, 2).'</font></center>';
