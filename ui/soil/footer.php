@@ -17,7 +17,7 @@
     </div>
     <!-- Default to the left -->
     <!-- <strong>BY: SoilPH</strong>  -->
-    <p>Copyright &copy; 2025 <strong>marquezaccountingfirmph</strong>.All rights reserved.</p>
+    <p>Copyright &copy; 2025 <strong>marquezaccountingfirmph</strong>. All rights reserved.</p>
   </footer>
 </div>
 <!-- ./wrapper -->

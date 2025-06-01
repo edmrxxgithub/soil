@@ -189,7 +189,7 @@ include_once 'tax_computation_vt_q1.php';
                   });
 
 
-                  $.ajax({
+            $.ajax({
                 url:'tax_compute/file1.php',
                 method:"POST",
                 data:'year_now='+year_now+'&branch_id='+branch_id+'&date_from='+date_from+'&date_to='+date_to,
