@@ -79,8 +79,8 @@ function fetch_supplier_name($pdo,$id)
 
 <table  border="1" width="100%">
             <tr align="center">
-              <th colspan="8" style="background-color:rgba(12,25,60,255);">
-                <font class="text-white">NON VAT PURCHASE INVOICES <?= $yearnow ?></font>
+              <th colspan="8" style="background-color:rgb(237,233,207,255);">
+                <font class="text-black">NON VAT PURCHASE INVOICES <?= $yearnow ?></font>
               </th>
             </tr>
             
