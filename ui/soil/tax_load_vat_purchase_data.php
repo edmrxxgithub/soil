@@ -61,7 +61,7 @@ function fetch_supplier_data($pdo,$id)
           </div>
 
           <div class="col-lg-4 col-sm-12">
-            <div class="small-box" style="background-color:rgba(12,25,60,255);">
+            <div class="small-box" style="background-color:rgb(142, 8, 11, 1);">
               <div class="inner  text-white">
                 <h3><?= number_format($vat_amount_total,2) ?></h3>
                 <p>INPUT TAX</p>
@@ -74,7 +74,7 @@ function fetch_supplier_data($pdo,$id)
 
 
           <div class="col-lg-4 col-sm-12">
-            <div class="small-box" style="background-color:rgba(12,25,60,255);">
+            <div class="small-box" style="background-color:rgb(55, 142, 55, 1);">
               <div class="inner  text-white">
                 <h3><?= number_format($net_amount_total,2) ?></h3>
                 <p>NET AMOUNT</p>
@@ -93,8 +93,8 @@ function fetch_supplier_data($pdo,$id)
 
 <table  border="1" width="100%">
             <tr align="center">
-              <th colspan="9" style="background-color:rgba(12,25,60,255);">
-                <font class="text-white">VAT PURCHASE INVOICES <?= $yearnow ?></font>
+              <th colspan="9" style="background-color:rgb(237,233,207,255);">
+                <font class="text-black">VAT PURCHASE INVOICES <?= $yearnow ?></font>
               </th>
             </tr>
             
