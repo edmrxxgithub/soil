@@ -1,4 +1,30 @@
 <?php
+function fetch_branch_data($pdo,$branchid)
+{
+	$select = $pdo->prepare("SELECT * FROM tb_tax_branch WHERE id = '$branchid' ");
+	$select->execute();
+	$row = $select->fetch(PDO::FETCH_OBJ);
+
+	$selectclient = $pdo->prepare("SELECT * FROM tb_tax_client WHERE id = '".$row->client_id."' ");
+	$selectclient->execute();
+	$rowclient = $selectclient->fetch(PDO::FETCH_OBJ);
+
+	$selectbusiness = $pdo->prepare("SELECT * FROM tb_tax_business WHERE id = '".$row->business_id."' ");
+	$selectbusiness->execute();
+	$rowbusiness = $selectbusiness->fetch(PDO::FETCH_OBJ);
+
+	$array['clientname'] = $rowclient->name;
+	$array['clientid'] = $row->client_id;
+	
+	$array['businessid'] = $row->business_id;
+	$array['businessname'] = $rowbusiness->name;
+
+	$array['branchid'] = $branchid;
+	$array['branchname'] = $row->address;
+
+	return $array;
+}
+
 
 function fetch_department_name($pdo,$id)
 {

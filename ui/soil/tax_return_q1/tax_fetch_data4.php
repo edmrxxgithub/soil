@@ -5,14 +5,14 @@
         <td align="center">
             <font size="2">
                 <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="" id="q1_value_added_tax_due_principal">
+                value="<?= number_format((($quarter1_data['total_sales'] + $quarter1_data['total_government_sales']) - ($quarter1_data['total_purchase'] + $quarter1_data['total_vat_purchase'] +  $quarter1_data['calculated_risk_no_percent'])),2) ?>" id="#">
             </font>
         </td>
 
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="" id="q1_value_added_tax_due_accessory">
+                value="<?= number_format((($quarter1_data['total_sales'] + $quarter1_data['total_government_sales']) - ($quarter1_data['total_purchase'] + $quarter1_data['total_vat_purchase'] +  $quarter1_data['calculated_risk_no_percent'])) * 0.12,2) ?>" id="#">
           </font>
         </td>
       </tr>
@@ -60,13 +60,13 @@
         <td><font size="2">VAT Withheld Government - VWT</font></td>
         <td>
             <font size="2">
-                <input style="width:100%;text-align: center;" type="text" value="<?= number_format($data_rr['total_swt_vt'],2) ?>" disabled id="q1_vat_withheld_government_principal">
+                <input style="width:100%;text-align: center;" type="text" value="<?= number_format($quarter1_data['total_swt_vt'],2) ?>" disabled id="#">
             </font>
         </td>
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="0"  id="q1_vat_withheld_government_accessory">
+                value="<?= number_format($quarter1_data['total_swt_vt'],2) ?>"  id="#">
           </font>
         </td>
       </tr>

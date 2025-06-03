@@ -12,10 +12,16 @@
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="" id="q1_net_taxable_income_accessory">
+                value="<?= number_format($quarter1_data['net_taxable_income'],2) ?>" id="#">
           </font>
         </td>
       </tr>
+
+
+
+<!-- total_non_vat_purchase
+total_vat_purchase -->
+
 
 
       <tr>
@@ -29,7 +35,7 @@
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="0"  id="q1_net_taxable_income_previous_quarter_accessory">
+                value="0" disabled  id="#">
           </font>
         </td>
       </tr>
@@ -47,7 +53,7 @@
         <td>
           <font size="2">
             <input type="text" disabled style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value=""  id="q1_taxable_income_to_date">
+                value="<?= number_format($quarter1_data['net_taxable_income'],2) ?>"  id="#">
           </font>
         </td>
       </tr>

@@ -12,7 +12,7 @@
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="" disabled id="q1_income_tax_still_payable_accessory">
+                value="<?= number_format($quarter1_data['net_taxable_income'] - $quarter1_data['total_swt_it'],2) ?>" disabled id="#">
           </font>
         </td>
     </tr>
@@ -32,7 +32,7 @@
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="0"  id="q1_income_tax_actually_paid_accessory">
+                value="0" disabled id="#">
           </font>
         </td>
     </tr>

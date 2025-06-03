@@ -5,14 +5,14 @@
         <td align="center">
             <font size="2">
                 <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="20" id="q1_tax_rate_principal">
+                value="20%" disabled id="#">
             </font>
         </td>
 
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="" disabled id="q1_tax_rate_accessory">
+                value="" disabled id="#">
           </font>
         </td>
       </tr>
@@ -23,7 +23,7 @@
         <td><font size="2">MCIT %</font></td>
         <td>
             <font size="2">
-                <input style="width:100%;text-align: center;" type="text" value="2"  id="q1_mcit_percent_principal">
+                <input style="width:100%;text-align: center;" type="text" value="2" disabled id="#">
             </font>
         </td>
         <td>

@@ -26,7 +26,10 @@ Swal.fire({
 
   }
 
-}) }, timeout);
+}) 
+
+
+}, timeout);
 
 
 
@@ -64,3 +67,18 @@ Swal.fire({
 // window.location.href = "logout.php";
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

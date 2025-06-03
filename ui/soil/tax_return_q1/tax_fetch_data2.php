@@ -5,14 +5,14 @@
         <td align="center">
             <font size="2">
                 <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="<?= number_format($data_rr['total_purchase'],2) ?>" id="q1_purchase_declaration_accessory">
+                value="<?= number_format($quarter1_data['total_purchase'],2) ?>" id="#">
             </font>
         </td>
 
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="<?= number_format($data_rr['total_purchase'] * 0.12,2) ?>" id="q1_purchase_declaration_accessory">
+                value="<?= number_format($quarter1_data['total_purchase'] * 0.12,2) ?>" id="#">
           </font>
         </td>
       </tr>
@@ -23,13 +23,13 @@
         <td><font size="2">VAT Expenses</font></td>
         <td>
             <font size="2">
-                <input style="width:100%;text-align: center;" type="text" value="<?= number_format($data_rr['total_vat_purchase'],2) ?>" id="q1_vat_expense_principal" disabled>
+                <input style="width:100%;text-align: center;" type="text" value="<?= number_format($quarter1_data['total_vat_purchase'],2) ?>" id="#" disabled>
             </font>
         </td>
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="<?= number_format($data_rr['total_vat_purchase'] * 0.12,2) ?>"  id="q1_vat_expense_accessory">
+                value="<?= number_format($quarter1_data['total_vat_purchase'] * 0.12,2) ?>"  id="#">
           </font>
         </td>
       </tr>
@@ -40,13 +40,13 @@
         <td><font size="2">Calculated risk</font></td>
         <td>
             <font size="2">
-                <input style="width:100%;text-align:center;" type="text" disabled value="0" id="q1_calculated_risk_principal">
+                <input style="width:100%;text-align:center;" type="text" disabled value="<?= number_format($quarter1_data['calculated_risk_no_percent'],2) ?>" id="#">
             </font>
         </td>
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="0" id="q1_calculated_risk_accessory">
+                value="<?= number_format($quarter1_data['calculated_risk_percent'],2) ?>" id="#">
           </font>
         </td>
       </tr>
@@ -57,13 +57,13 @@
         <td><font size="2">Total VAT Purchases</font></td>
         <td>
             <font size="2">
-                <input style="width:100%;text-align:center;" type="text" disabled value="<?= number_format($data_rr['total_vat_purchase'] + $data_rr['total_purchase'] + $calculated_risk_data['calculated_risk_no_percent'],2) ?>" id="q1_total_vat_purchase_principal">
+                <input style="width:100%;text-align:center;" type="text" disabled value="<?= number_format($quarter1_data['total_vat_purchase'] + $quarter1_data['total_purchase'] + $quarter1_data['calculated_risk_no_percent'],2) ?>" id="#">
             </font>
         </td>
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="<?= number_format(($data_rr['total_vat_purchase'] + $data_rr['total_purchase'] + $calculated_risk_data['calculated_risk_no_percent']) * 0.12 ,2) ?>" id="q1_total_vat_purchase_accessory">
+                value="<?= number_format(($quarter1_data['total_vat_purchase'] + $quarter1_data['total_purchase'] + $quarter1_data['calculated_risk_no_percent']) * 0.12 ,2) ?>" id="#">
           </font>
         </td>
       </tr>

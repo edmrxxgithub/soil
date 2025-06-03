@@ -588,9 +588,9 @@ $('#general_summary_report').load('tax_load_general_summary_report2.php?monthnow
 
 //TAX RETURN DATA
 $('#tax_return_load_data_q1').load('tax_return_load_data2_q1.php?yearnow='+yearnow_php+'&branchid='+branchid_php);
-$('#tax_return_load_data_q2').load('tax_return_load_data2_q2.php?yearnow='+yearnow_php+'&branchid='+branchid_php);
-$('#tax_return_load_data_q3').load('tax_return_load_data2_q3.php?yearnow='+yearnow_php+'&branchid='+branchid_php);
-$('#tax_return_load_data_q4').load('tax_return_load_data2_q4.php?yearnow='+yearnow_php+'&branchid='+branchid_php);
+// $('#tax_return_load_data_q2').load('tax_return_load_data2_q2.php?yearnow='+yearnow_php+'&branchid='+branchid_php);
+// $('#tax_return_load_data_q3').load('tax_return_load_data2_q3.php?yearnow='+yearnow_php+'&branchid='+branchid_php);
+// $('#tax_return_load_data_q4').load('tax_return_load_data2_q4.php?yearnow='+yearnow_php+'&branchid='+branchid_php);
 
 
 // PURCHASE DATA TAB

@@ -2,41 +2,40 @@
 include_once 'connectdb.php';
 include_once 'tax_compute/function2.php';
 
-
 $yearnow = $_GET['yearnow'];
 $branchid = $_GET['branchid'];
 
-$monthfrom = 1;
-$monthto = 3;
-$quarter_num = 1;
-
-$date_from = $yearnow.'-'.$monthfrom.'-1';
-
-$number_of_days = date("t", strtotime("$yearnow-$monthto-1"));
-
-$date_to = $yearnow.'-'.$monthto.'-'.$number_of_days;
-
-
-$data_rr = fetch_data($pdo,$date_from,$date_to,$branchid);
+// $monthfrom = 1;
+// $monthto = 3;
+// $quarter_num = 1;
+// $date_from = $yearnow.'-'.$monthfrom.'-1';
+// $number_of_days = date("t", strtotime("$yearnow-$monthto-1"));
+// $date_to = $yearnow.'-'.$monthto.'-'.$number_of_days;
+// $data_rr = fetch_data($pdo,$date_from,$date_to,$branchid);
+// $calculated_risk_data = fetch_calculated_risk_data($pdo,$date_from,$date_to,$branchid,$quarter_num,$yearnow);
+// function fetch_data($pdo,$date_from,$date_to,$branchid)
 
 
 
 
 
 
-$calculated_risk_data = fetch_calculated_risk_data($pdo,$date_from,$date_to,$branchid,$quarter_num,$yearnow);
 
+$quarter1_data = fetch_data($pdo,1,3,1,$yearnow,$branchid);
 
-
-
-
-
-function fetch_data($pdo,$date_from,$date_to,$branchid)
+function fetch_data($pdo,$monthfrom,$monthto,$quarter_num,$yearnow,$branchid)
 {
 
   // $select1 = $pdo->prepare("SELECT SUM(net_amount) as total_sales_net_amount FROM tb_tax_sales WHERE date between '$date_from' and '$date_to' and branch_id = '$branchid' ");
   // $select1->execute();
   // $row1 = $select1->fetch(PDO::FETCH_OBJ);
+
+$date_from = $yearnow.'-'.$monthfrom.'-1';
+$number_of_days = date("t", strtotime("$yearnow-$monthto-1"));
+$date_to = $yearnow.'-'.$monthto.'-'.$number_of_days;
+
+
+$calculated_risk_data = fetch_calculated_risk_data($pdo,$date_from,$date_to,$branchid,$quarter_num,$yearnow);
 
 
   $select1 = $pdo->prepare("SELECT 
@@ -133,6 +132,23 @@ function fetch_data($pdo,$date_from,$date_to,$branchid)
   $select6->execute();
   $row6 = $select6->fetch(PDO::FETCH_OBJ);
 
+
+  $total_sales_revenue = $row1->total_sales_net_amount + 
+                         $row_government_sales->net_amount_total + 
+                         $row_zero_rated_sales->net_amount_total + 
+                         $row_exempt_sales->net_amount_total;
+
+
+  $array['total_sales_revenue'] = $total_sales_revenue;
+
+
+  
+   // number_format($quarter1_data['total_sales_revenue'] - 
+   //                      ($quarter1_data['total_non_vat_purchase']+ $quarter1_data['total_vat_purchase']),2)
+
+
+   $array['net_taxable_income'] = $total_sales_revenue - ($row3->total_vat_purchase_net_amount + $row4->total_non_vat_purchase_net_amount);
+
   $array['total_sales'] = $row1->total_sales_net_amount;
   $array['total_government_sales'] = $row_government_sales->net_amount_total;
   $array['total_zero_rated_sales'] = $row_zero_rated_sales->net_amount_total;
@@ -143,6 +159,12 @@ function fetch_data($pdo,$date_from,$date_to,$branchid)
   $array['total_non_vat_purchase'] = $row4->total_non_vat_purchase_net_amount;
   $array['total_swt_vt'] = $row5->withholding_total_vwt;
   $array['total_swt_it'] = $row6->withholding_total_cwt;
+
+  $array['calculated_risk_no_percent'] = $calculated_risk_data['calculated_risk_no_percent'];
+  $array['calculated_risk_percent'] = $calculated_risk_data['calculated_risk_percent'];
+
+
+
 
   return $array;
 
@@ -280,8 +302,8 @@ $less_deductions = $data_rr['total_vat_purchase'] + $data_rr['total_non_vat_purc
 
       <div class="col-sm-12 col-md-12 col-lg-12">
         <center>
-            <button class="btn btn-sm btn-primary mt-3" style="display: none;" id="q1_compute_value_add_tax_info">Compute</button>
-            <button class="btn btn-md btn-success mt-3" id="q1_save_data">Save data</button>
+            <!-- <button class="btn btn-sm btn-primary mt-3" style="display: none;" id="q1_compute_value_add_tax_info">Compute</button> -->
+            <button class="btn btn-md btn-success mt-3" id="q1_update_all_save_data">Update data</button>
         </center>
       </div>
 
@@ -325,217 +347,219 @@ $less_deductions = $data_rr['total_vat_purchase'] + $data_rr['total_non_vat_purc
 
     // alert(quarter_num+' '+branch_id+' '+year_now);
 
-    $('#q1_vatable_sales_principal').val('<?= number_format($data_rr['total_sales'],2) ?>');
-    $('#q1_vatable_sales_accessory').val('<?= number_format(($data_rr['total_sales'] * 0.12),2) ?>');
+    // $('#q1_vatable_sales_principal').val('<?= number_format($data_rr['total_sales'],2) ?>');
+    // $('#q1_vatable_sales_accessory').val('<?= number_format(($data_rr['total_sales'] * 0.12),2) ?>');
 
-    $('#q1_government_sales_principal').val('<?= number_format($data_rr['total_government_sales'],2) ?>');
-    $('#q1_government_sales_accessory').val('<?= number_format(($data_rr['total_government_sales'] * 0.12),2) ?>');
+    // $('#q1_government_sales_principal').val('<?= number_format($data_rr['total_government_sales'],2) ?>');
+    // $('#q1_government_sales_accessory').val('<?= number_format(($data_rr['total_government_sales'] * 0.12),2) ?>');
 
-    $('#q1_zero_rated_sales_principal').val('<?= number_format($data_rr['total_zero_rated_sales'],2) ?>');
-    $('#q1_exempt_sales_principal').val('<?= number_format($data_rr['total_exempt_sales'],2) ?>');
+    // $('#q1_zero_rated_sales_principal').val('<?= number_format($data_rr['total_zero_rated_sales'],2) ?>');
+    // $('#q1_exempt_sales_principal').val('<?= number_format($data_rr['total_exempt_sales'],2) ?>');
      
-    $('#q1_total_sales_principal').val('<?= number_format($data_rr['total_sales']+$data_rr['total_government_sales']+$data_rr['total_zero_rated_sales']+$data_rr['total_exempt_sales'],2) ?>'); 
-    $('#q1_total_sales_accessory').val('<?= number_format(($data_rr['total_sales'] + $data_rr['total_government_sales']) * 0.12,2) ?>');
+    // $('#q1_total_sales_principal').val('<?= number_format($data_rr['total_sales']+$data_rr['total_government_sales']+$data_rr['total_zero_rated_sales']+$data_rr['total_exempt_sales'],2) ?>');
+
+    // $('#q1_total_sales_accessory').val('<?= number_format(($data_rr['total_sales'] + $data_rr['total_government_sales']) * 0.12,2) ?>');
       
  
-    $('#q1_calculated_risk_principal').val('<?= number_format($calculated_risk_data['calculated_risk_no_percent'],2) ?>');
-    $('#q1_calculated_risk_accessory').val('<?= number_format($calculated_risk_data['calculated_risk_percent'],2) ?>');
+    // $('#q1_calculated_risk_principal').val('<?= number_format($calculated_risk_data['calculated_risk_no_percent'],2) ?>');
+    // $('#q1_calculated_risk_accessory').val('<?= number_format($calculated_risk_data['calculated_risk_percent'],2) ?>');
 
-    $('#q1_value_added_tax_due_accessory').val('<?= number_format((($data_rr['total_sales'] + $data_rr['total_government_sales']) - ($data_rr['total_purchase'] + $data_rr['total_vat_purchase'] +  $calculated_risk_data['calculated_risk_no_percent'])) * 0.12,2) ?>');
+     // $('#q1_value_added_tax_due_principal').val('<?= number_format((($data_rr['total_sales'] + $data_rr['total_government_sales']) - ($data_rr['total_purchase'] + $data_rr['total_vat_purchase'] +  $calculated_risk_data['calculated_risk_no_percent'])),2) ?>');
 
-    $('#q1_value_added_tax_due_principal').val('<?= number_format((($data_rr['total_sales'] + $data_rr['total_government_sales']) - ($data_rr['total_purchase'] + $data_rr['total_vat_purchase'] +  $calculated_risk_data['calculated_risk_no_percent'])),2) ?>');
+    // $('#q1_value_added_tax_due_accessory').val('<?= number_format((($data_rr['total_sales'] + $data_rr['total_government_sales']) - ($data_rr['total_purchase'] + $data_rr['total_vat_purchase'] +  $calculated_risk_data['calculated_risk_no_percent'])) * 0.12,2) ?>');
+
+   
 
     
-    $('#q1_value_added_tax_payable_accessory').val('<?= number_format((($data_rr['total_sales'] + $data_rr['total_government_sales']) - ($data_rr['total_purchase'] + $data_rr['total_vat_purchase'] +  $calculated_risk_data['calculated_risk_no_percent'])) * 0.12,2) ?>');
+    // $('#q1_value_added_tax_payable_accessory').val('<?= number_format((($data_rr['total_sales'] + $data_rr['total_government_sales']) - ($data_rr['total_purchase'] + $data_rr['total_vat_purchase'] +  $calculated_risk_data['calculated_risk_no_percent'])) * 0.12,2) ?>');
 
     // <?= number_format(($data_rr['total_vat_purchase'] + $data_rr['total_purchase'] + $calculated_risk_data['calculated_risk_no_percent']) * 0.12 ,2) ?>
 
-          var form_data1 = 
-          { 
+          // var form_data1 = 
+          // { 
 
-            quarter_num : quarter_num,
-            branch_id : branch_id,
-            year_now : year_now
+          //   quarter_num : quarter_num,
+          //   branch_id : branch_id,
+          //   year_now : year_now
 
-          };
+          // };
 
-          $.ajax({
-            url:'tax_initiate_data.php',
-            method:"POST",
-            data:form_data1,
-            dataType:'json',
-            success:function(data)
-            {    
-                // $('#q1_government_sales_principal').val('<?= $data_rr['total_government_sales'] ?>');
-                // $('#q1_zero_rated_sales_principal').val(data.zero_rated_sales);
-                // $('#q1_exempt_sales_principal').val(data.exempt_sales);
-                // $('#q1_other_expense_principal').val(data.other_expenses);
-                // $('#q1_vat_payment_previous_principal').val(data.vat_payment_previous);
-                $('#q1_tax_actual_paid_accessory').val(data.tax_actually_paid_success);
+          // $.ajax({
+          //   url:'tax_initiate_data.php',
+          //   method:"POST",
+          //   data:form_data1,
+          //   dataType:'json',
+          //   success:function(data)
+          //   {    
+          //       $('#q1_government_sales_principal').val('<?= $data_rr['total_government_sales'] ?>');
+          //       $('#q1_zero_rated_sales_principal').val(data.zero_rated_sales);
+          //       $('#q1_exempt_sales_principal').val(data.exempt_sales);
+          //       $('#q1_other_expense_principal').val(data.other_expenses);
+          //       $('#q1_vat_payment_previous_principal').val(data.vat_payment_previous);
+          //       $('#q1_tax_actual_paid_accessory').val(data.tax_actually_paid_success);
+          //       $('#q1_less_cost_of_sales_accessory').val(data.cost_of_sales);
 
-                $('#q1_less_cost_of_sales_accessory').val(data.cost_of_sales);
-
-                $('#q1_other_expenses_value_principal_2').val(data.other_expenses_2);
-                $('#q1_net_taxable_income_previous_quarter_accessory').val(data.tax_income_previous);
-                $('#q1_tax_rate_principal').val(data.tax_rate);
-                $('#q1_mcit_percent_principal').val(data.mcit);
-                $('#q1_it_payment_previous_principal').val(data.it_payment_previous);
-                $('#q1_income_tax_actually_paid_accessory').val(data.income_tax_actually_paid_success);
+          //       $('#q1_other_expenses_value_principal_2').val(data.other_expenses_2);
+          //       $('#q1_net_taxable_income_previous_quarter_accessory').val(data.tax_income_previous);
+          //       $('#q1_tax_rate_principal').val(data.tax_rate);
+          //       $('#q1_mcit_percent_principal').val(data.mcit);
+          //       $('#q1_it_payment_previous_principal').val(data.it_payment_previous);
+          //       $('#q1_income_tax_actually_paid_accessory').val(data.income_tax_actually_paid_success);
 
                 
-                // $('#q1_compute_value_add_tax_info').click();
+          //       $('#q1_compute_value_add_tax_info').click();
                 
-            }
-          });
+          //   }
+          // });
 
 
-    $(document).on('click','#q1_compute_value_add_tax_info',function()
-    {
+    // $(document).on('click','#q1_compute_value_add_tax_info',function()
+    // {
 
-      // alert('God is good, life is good 111');
+    //   // alert('God is good, life is good 111');
 
-      var q1_government_sales_principal = $('#q1_government_sales_principal').val();
-      var q1_zero_rated_sales_principal = $('#q1_zero_rated_sales_principal').val();
-      var q1_exempt_sales_principal = $('#q1_exempt_sales_principal').val();
+    //   var q1_government_sales_principal = $('#q1_government_sales_principal').val();
+    //   var q1_zero_rated_sales_principal = $('#q1_zero_rated_sales_principal').val();
+    //   var q1_exempt_sales_principal = $('#q1_exempt_sales_principal').val();
 
-      var q1_total_vat_purchase_accessory = $('#q1_total_vat_purchase_accessory').val();
-      var q1_less_cost_of_sales_accessory = $('#q1_less_cost_of_sales_accessory').val();
-      var q1_net_taxable_income_previous_quarter_accessory = $('#q1_net_taxable_income_previous_quarter_accessory').val();
+    //   var q1_total_vat_purchase_accessory = $('#q1_total_vat_purchase_accessory').val();
+    //   var q1_less_cost_of_sales_accessory = $('#q1_less_cost_of_sales_accessory').val();
+    //   var q1_net_taxable_income_previous_quarter_accessory = $('#q1_net_taxable_income_previous_quarter_accessory').val();
 
-      var q1_tax_rate_principal = $('#q1_tax_rate_principal').val();
-      var q1_mcit_percent_principal = $('#q1_mcit_percent_principal').val();
-      var q1_vat_payment_previous_principal = $('#q1_vat_payment_previous_principal').val();
+    //   var q1_tax_rate_principal = $('#q1_tax_rate_principal').val();
+    //   var q1_mcit_percent_principal = $('#q1_mcit_percent_principal').val();
+    //   var q1_vat_payment_previous_principal = $('#q1_vat_payment_previous_principal').val();
 
-      var q1_it_payment_previous_principal = $('#q1_it_payment_previous_principal').val();
-      var q1_income_tax_actually_paid_accessory = $('#q1_income_tax_actually_paid_accessory').val();
+    //   var q1_it_payment_previous_principal = $('#q1_it_payment_previous_principal').val();
+    //   var q1_income_tax_actually_paid_accessory = $('#q1_income_tax_actually_paid_accessory').val();
 
-      var q1_tax_actual_paid_accessory = $('#q1_vat_expense_principal').val();
-      var q1_vat_expense_principal = $('#q1_vat_expense_principal').val();
-      var q1_other_expenses_value_principal_2 = $('#q1_other_expenses_value_principal_2').val();
+    //   var q1_tax_actual_paid_accessory = $('#q1_vat_expense_principal').val();
+    //   var q1_vat_expense_principal = $('#q1_vat_expense_principal').val();
+    //   var q1_other_expenses_value_principal_2 = $('#q1_other_expenses_value_principal_2').val();
 
 
     
-            $.ajax({
-            url:'tax_compute_data4.php',
-            method:"POST",
-            data:'q1_vatable_sales='+<?= $data_rr['total_sales'] ?>+
-                  '&isset=data1'+
-                  '&q1_government_sales_principal='+q1_government_sales_principal+'&q1_zero_rated_sales_principal='+q1_zero_rated_sales_principal+'&q1_exempt_sales_principal='+q1_exempt_sales_principal+'&q1_total_vat_purchase_accessory='+q1_total_vat_purchase_accessory+'&sawt_vt='+<?= $data_rr['total_swt_vt'] ?>+'&q1_less_cost_of_sales_accessory='+q1_less_cost_of_sales_accessory+'&non_vat_expenses='+<?= $non_vat_expenses ?>+'&q1_net_taxable_income_previous_quarter_accessory='+q1_net_taxable_income_previous_quarter_accessory+'&q1_tax_rate_principal='+q1_tax_rate_principal+'&q1_mcit_percent_principal='+q1_mcit_percent_principal+'&q1_vat_payment_previous_principal='+q1_vat_payment_previous_principal+'&sawt_it='+<?= $data_rr['total_swt_it'] ?>+'&q1_it_payment_previous_principal='+q1_it_payment_previous_principal+'&q1_tax_actual_paid_accessory='+q1_tax_actual_paid_accessory+'&q1_vat_expense_principal='+q1_vat_expense_principal+'&q1_other_expenses_value_principal_2='+q1_other_expenses_value_principal_2+'&less_deductions='+<?= $less_deductions ?>,
-            dataType:'json',
-            success:function(data)
-            {
-                $('#q1_vatable_sales_principal').val(data.total);
-                $('#q1_vatable_sales_accessory').val(data.total2);
-                $('#q1_government_sales_principal').val(data.total3);
-                $('#q1_government_sales_accessory').val(data.total4);
-                $('#q1_total_sales_principal').val(data.total5);
-                $('#q1_total_sales_accessory').val(data.total6);
-                $('#q1_value_added_tax_due_accessory').val(data.total8);
-                $('#q1_value_added_tax_payable_accessory').val(data.total9);
-                $('#q1_total_sales_revenue_accessory').val(data.total5);
-                $('#q1_gross_sales_accessory').val(data.total10);
-                $('#q1_net_taxable_income_accessory').val(data.total11);
-                $('#q1_taxable_income_to_date').val(data.total12);
-                $('#q1_tax_rate_accessory').val(data.total13);
-                // $('#q1_mcit_percent_accessory').val(data.total14);
-                $('#q1_mcit_percent_accessory').val(data.total19);
-                $("#q1_income_tax_due_accessory").val(data.total15);
-                $('#q1_vat_withheld_government_accessory').val(data.total16);
-                $('#q1_it_withheld_cwt_accessory').val(data.total17);
-                $('#q1_income_tax_still_payable_accessory').val(data.total17);
-                $('#q1_other_expenses_value_acessory_2').val(data.total18);
-                // $('#sample_fetch_data').val(data.total19);
-            }
-          });
+    //         $.ajax({
+    //         url:'tax_compute_data4.php',
+    //         method:"POST",
+    //         data:'q1_vatable_sales='+<?= $data_rr['total_sales'] ?>+
+    //               '&isset=data1'+
+    //               '&q1_government_sales_principal='+q1_government_sales_principal+'&q1_zero_rated_sales_principal='+q1_zero_rated_sales_principal+'&q1_exempt_sales_principal='+q1_exempt_sales_principal+'&q1_total_vat_purchase_accessory='+q1_total_vat_purchase_accessory+'&sawt_vt='+<?= $data_rr['total_swt_vt'] ?>+'&q1_less_cost_of_sales_accessory='+q1_less_cost_of_sales_accessory+'&non_vat_expenses='+<?= $non_vat_expenses ?>+'&q1_net_taxable_income_previous_quarter_accessory='+q1_net_taxable_income_previous_quarter_accessory+'&q1_tax_rate_principal='+q1_tax_rate_principal+'&q1_mcit_percent_principal='+q1_mcit_percent_principal+'&q1_vat_payment_previous_principal='+q1_vat_payment_previous_principal+'&sawt_it='+<?= $data_rr['total_swt_it'] ?>+'&q1_it_payment_previous_principal='+q1_it_payment_previous_principal+'&q1_tax_actual_paid_accessory='+q1_tax_actual_paid_accessory+'&q1_vat_expense_principal='+q1_vat_expense_principal+'&q1_other_expenses_value_principal_2='+q1_other_expenses_value_principal_2+'&less_deductions='+<?= $less_deductions ?>,
+    //         dataType:'json',
+    //         success:function(data)
+    //         {
+    //             $('#q1_vatable_sales_principal').val(data.total);
+    //             $('#q1_vatable_sales_accessory').val(data.total2);
+    //             $('#q1_government_sales_principal').val(data.total3);
+    //             $('#q1_government_sales_accessory').val(data.total4);
+    //             $('#q1_total_sales_principal').val(data.total5);
+    //             $('#q1_total_sales_accessory').val(data.total6);
+    //             $('#q1_value_added_tax_due_accessory').val(data.total8);
+    //             $('#q1_value_added_tax_payable_accessory').val(data.total9);
+    //             $('#q1_total_sales_revenue_accessory').val(data.total5);
+    //             $('#q1_gross_sales_accessory').val(data.total10);
+    //             $('#q1_net_taxable_income_accessory').val(data.total11);
+    //             $('#q1_taxable_income_to_date').val(data.total12);
+    //             $('#q1_tax_rate_accessory').val(data.total13);
+    //             // $('#q1_mcit_percent_accessory').val(data.total14);
+    //             $('#q1_mcit_percent_accessory').val(data.total19);
+    //             $("#q1_income_tax_due_accessory").val(data.total15);
+    //             $('#q1_vat_withheld_government_accessory').val(data.total16);
+    //             $('#q1_it_withheld_cwt_accessory').val(data.total17);
+    //             $('#q1_income_tax_still_payable_accessory').val(data.total17);
+    //             $('#q1_other_expenses_value_acessory_2').val(data.total18);
+    //             // $('#sample_fetch_data').val(data.total19);
+    //         }
+    //       });
 
-    })
-
-
-
-$(document).on('keyup', 
-  '#q1_government_sales_principal, \
-   #q1_zero_rated_sales_principal, \
-   #q1_exempt_sales_principal, \
-   #q1_total_vat_purchase_accessory, \
-   #q1_less_cost_of_sales_accessory, \
-   #q1_net_taxable_income_previous_quarter_accessory, \
-   #q1_tax_rate_principal, \
-   #q1_mcit_percent_principal, \ #q1_vat_payment_previous_principal, \ #q1_it_payment_previous_principal ,\ #q1_other_expenses_value_principal_2', 
-   function() 
-   {
-     $('#q1_compute_value_add_tax_info').click();
-   }
-
-);
+    // })
 
 
 
-$(document).on('click','#q1_save_data',function()
-{
+// $(document).on('keyup', 
+//   '#q1_government_sales_principal, \
+//    #q1_zero_rated_sales_principal, \
+//    #q1_exempt_sales_principal, \
+//    #q1_total_vat_purchase_accessory, \
+//    #q1_less_cost_of_sales_accessory, \
+//    #q1_net_taxable_income_previous_quarter_accessory, \
+//    #q1_tax_rate_principal, \
+//    #q1_mcit_percent_principal, \ #q1_vat_payment_previous_principal, \ #q1_it_payment_previous_principal ,\ #q1_other_expenses_value_principal_2', 
+//    function() 
+//    {
+//      $('#q1_compute_value_add_tax_info').click();
+//    }
 
-var q1_government_sales_principal = $('#q1_government_sales_principal').val();
-var q1_zero_rated_sales_principal = $('#q1_zero_rated_sales_principal').val();
-var q1_exempt_sales_principal = $('#q1_exempt_sales_principal').val();
-
-var q1_other_expense_principal = $('#q1_other_expense_principal').val();
-var q1_vat_payment_previous_principal = $('#q1_vat_payment_previous_principal').val();
-var q1_tax_actual_paid_accessory = $('#q1_tax_actual_paid_accessory').val();
-
-
-var q1_less_cost_of_sales_accessory = $('#q1_less_cost_of_sales_accessory').val();
-var q1_net_taxable_income_previous_quarter_accessory = $('#q1_net_taxable_income_previous_quarter_accessory').val();
-var q1_tax_rate_principal = $('#q1_tax_rate_principal').val();
-
-
-var q1_mcit_percent_principal = $('#q1_mcit_percent_principal').val();
-var q1_it_payment_previous_principal = $('#q1_it_payment_previous_principal').val();
-var q1_income_tax_actually_paid_accessory = $('#q1_income_tax_actually_paid_accessory').val();
-
-var q1_other_expenses_value_principal_2 = $('#q1_other_expenses_value_principal_2').val();
+// );
 
 
+
+// $(document).on('click','#q1_save_data',function()
+// {
+
+// var q1_government_sales_principal = $('#q1_government_sales_principal').val();
+// var q1_zero_rated_sales_principal = $('#q1_zero_rated_sales_principal').val();
+// var q1_exempt_sales_principal = $('#q1_exempt_sales_principal').val();
+
+// var q1_other_expense_principal = $('#q1_other_expense_principal').val();
+// var q1_vat_payment_previous_principal = $('#q1_vat_payment_previous_principal').val();
+// var q1_tax_actual_paid_accessory = $('#q1_tax_actual_paid_accessory').val();
+
+
+// var q1_less_cost_of_sales_accessory = $('#q1_less_cost_of_sales_accessory').val();
+// var q1_net_taxable_income_previous_quarter_accessory = $('#q1_net_taxable_income_previous_quarter_accessory').val();
+// var q1_tax_rate_principal = $('#q1_tax_rate_principal').val();
+
+
+// var q1_mcit_percent_principal = $('#q1_mcit_percent_principal').val();
+// var q1_it_payment_previous_principal = $('#q1_it_payment_previous_principal').val();
+// var q1_income_tax_actually_paid_accessory = $('#q1_income_tax_actually_paid_accessory').val();
+
+// var q1_other_expenses_value_principal_2 = $('#q1_other_expenses_value_principal_2').val();
 
 
 
 
-var form_data = 
-{
-    q1_government_sales_principal: q1_government_sales_principal,
-    q1_zero_rated_sales_principal: q1_zero_rated_sales_principal,
-    q1_exempt_sales_principal: q1_exempt_sales_principal,
-
-    q1_other_expense_principal: q1_other_expense_principal,
-    q1_vat_payment_previous_principal: q1_vat_payment_previous_principal,
-    q1_tax_actual_paid_accessory: q1_tax_actual_paid_accessory,
-
-    q1_less_cost_of_sales_accessory: q1_less_cost_of_sales_accessory,
-    q1_net_taxable_income_previous_quarter_accessory: q1_net_taxable_income_previous_quarter_accessory,
-    q1_tax_rate_principal: q1_tax_rate_principal,
-
-    q1_mcit_percent_principal: q1_mcit_percent_principal,
-    q1_it_payment_previous_principal: q1_it_payment_previous_principal,
-    q1_income_tax_actually_paid_accessory: q1_income_tax_actually_paid_accessory,
-
-    quarter_num: quarter_num,
-    branch_id: branch_id,
-    year_now: year_now,
-
-    q1_other_expenses_value_principal_2: q1_other_expenses_value_principal_2
-};
 
 
-    $.ajax({
-      url:'tax_compute_data5.php',
-      method:"POST",
-      data:form_data,
-      success:function(data)
-      {
-          Swal.fire({icon: 'success',title: 'Tax return data updated!' });
-      }
-    });
+// var form_data = 
+// {
+//     q1_government_sales_principal: q1_government_sales_principal,
+//     q1_zero_rated_sales_principal: q1_zero_rated_sales_principal,
+//     q1_exempt_sales_principal: q1_exempt_sales_principal,
+
+//     q1_other_expense_principal: q1_other_expense_principal,
+//     q1_vat_payment_previous_principal: q1_vat_payment_previous_principal,
+//     q1_tax_actual_paid_accessory: q1_tax_actual_paid_accessory,
+
+//     q1_less_cost_of_sales_accessory: q1_less_cost_of_sales_accessory,
+//     q1_net_taxable_income_previous_quarter_accessory: q1_net_taxable_income_previous_quarter_accessory,
+//     q1_tax_rate_principal: q1_tax_rate_principal,
+
+//     q1_mcit_percent_principal: q1_mcit_percent_principal,
+//     q1_it_payment_previous_principal: q1_it_payment_previous_principal,
+//     q1_income_tax_actually_paid_accessory: q1_income_tax_actually_paid_accessory,
+
+//     quarter_num: quarter_num,
+//     branch_id: branch_id,
+//     year_now: year_now,
+
+//     q1_other_expenses_value_principal_2: q1_other_expenses_value_principal_2
+// };
 
 
-})
+//     $.ajax({
+//       url:'tax_compute_data5.php',
+//       method:"POST",
+//       data:form_data,
+//       success:function(data)
+//       {
+//           Swal.fire({icon: 'success',title: 'Tax return data updated!' });
+//       }
+//     });
+
+
+// })
 
 
 

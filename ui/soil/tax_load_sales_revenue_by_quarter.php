@@ -8,16 +8,15 @@ $branchid = $_GET['branchid'];
 function fetch_by_quarter_total($pdo,$monthfrom,$monthto,$yearnow,$branchid)
 {
     $number_of_days_in_a_month = date("t", strtotime("$yearnow-$monthto-01"));
-
     $datefrom = $yearnow.'-'.$monthfrom.'-01';
-
     $dateto = $yearnow.'-'.$monthto.'-'.$number_of_days_in_a_month;
 
-    $select = $pdo->prepare("SELECT SUM(gross_amount) as gross_amount FROM tb_tax_sales WHERE branch_id = '$branchid' and date between '$datefrom' and '$dateto' ");
+    $select = $pdo->prepare("SELECT SUM(net_amount) as gross_amount FROM tb_tax_sales WHERE branch_id = '$branchid' and date between '$datefrom' and '$dateto' ");
     $select->execute();
     $row = $select->fetch(PDO::FETCH_OBJ);
 
-    $netamount = $row->gross_amount / 1.12;
+    // $netamount = $row->gross_amount / 1.12;
+    $netamount = $row->gross_amount;
 
     return number_format($netamount,2);
     

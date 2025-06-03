@@ -25,7 +25,7 @@
         <td align="center">
             <font size="2">
                 <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="0"  id="q1_it_payment_previous_principal">
+                value="0" disabled id="q1_it_payment_previous_principal">
             </font>
         </td>
 
@@ -45,14 +45,14 @@
         <td align="center">
             <font size="2">
                 <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($data_rr['total_swt_it'],2) ?>" disabled id="q1_it_withheld_cwt_principal">
+                value="<?= number_format($quarter1_data['total_swt_it'],2) ?>" disabled id="#">
             </font>
         </td>
 
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="" disabled id="q1_it_withheld_cwt_accessory">
+                value="<?= number_format($quarter1_data['total_swt_it'],2) ?>" disabled id="#">
           </font>
         </td>
     </tr>

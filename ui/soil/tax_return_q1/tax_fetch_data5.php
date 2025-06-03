@@ -12,7 +12,7 @@
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="" id="q1_value_added_tax_payable_accessory">
+                value="<?= number_format(((($quarter1_data['total_sales'] + $quarter1_data['total_government_sales']) - ($quarter1_data['total_purchase'] + $quarter1_data['total_vat_purchase'] +  $quarter1_data['calculated_risk_no_percent'])) * 0.12) - $quarter1_data['total_swt_vt'],2) ?>" id="#">
           </font>
         </td>
       </tr>
@@ -29,7 +29,7 @@
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="0"  id="q1_tax_actual_paid_accessory" autocomplete="off">
+                value="0"  disabled id="q1_tax_actual_paid_accessory" autocomplete="off">
           </font>
         </td>
       </tr>
