@@ -29,7 +29,7 @@
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="0"  disabled id="q1_tax_actual_paid_accessory" autocomplete="off">
+                value="<?= number_format($quarter1_data['tax_actually_paid_success'],2) ?>"  disabled id="#" autocomplete="off">
           </font>
         </td>
       </tr>

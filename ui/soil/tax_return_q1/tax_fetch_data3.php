@@ -23,7 +23,7 @@
     <td><font size="2">Other Expenses</font></td>
     <td>
         <font size="2">
-            <input style="width:100%;text-align: center;" disabled type="text" value="0" id="q1_other_expense_principal">
+            <input style="width:100%;text-align: center;" disabled type="text" value="<?= number_format($quarter1_data['other_expenses'],2) ?>" id="q1_other_expense_principal">
         </font>
     </td>
     <td>

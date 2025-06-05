@@ -12,7 +12,7 @@
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;" disabled 
-                value="<?= number_format($quarter1_data['net_taxable_income'],2) ?>" id="#">
+                value="<?= number_format($quarter1_data['taxable_income_to_date'],2) ?>" id="#">
           </font>
         </td>
       </tr>
@@ -53,7 +53,7 @@ total_vat_purchase -->
         <td>
           <font size="2">
             <input type="text" disabled style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($quarter1_data['net_taxable_income'],2) ?>"  id="#">
+                value="<?= number_format($quarter1_data['taxable_income_to_date'],2) ?>"  id="#">
           </font>
         </td>
       </tr>

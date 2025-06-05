@@ -30,40 +30,6 @@ $quarter1_data = fetch_data($pdo,1,3,1,$yearnow,$branchid);
 include_once "header.php";
 
 
-$selectdata = $pdo->prepare("SELECT * FROM tb_tax_return WHERE quarter_num = '$quarter' AND branch_id = '$branchid' AND year_num  = '$yearnow' ");
-$selectdata->execute();
-$rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
-
-
-$taxable_income_to_date = ($quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales) - ($quarter1_data['total_non_vat_purchase'] + $quarter1_data['total_vat_purchase'] + $rowdata->other_expenses_2);
-
-
-$grossincome = $quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales;
-
-$tax_rate_percent = ($rowdata->tax_rate / 100) * $taxable_income_to_date;
-
-$mcit_percent = ($rowdata->mcit / 100) * $grossincome;
-
-$preferred_income_tax_due = $rowdata->preferred_income_tax_due;
-
-
-
-if ($preferred_income_tax_due != 0) 
-{
-    $incometaxdue = $preferred_income_tax_due;
-}
-else
-{
-
-    if ($tax_rate_percent > $mcit_percent) 
-    {
-        $incometaxdue = $tax_rate_percent;
-    }
-    else
-    {
-        $incometaxdue = $mcit_percent;
-    }
-}
 
 ?>
 
@@ -163,43 +129,10 @@ if (isset($_POST['update_data']))
             $_SESSION['status_code']="success";
         }
 
-$selectdata = $pdo->prepare("SELECT * FROM tb_tax_return WHERE quarter_num = '$quarter' AND branch_id = '$branchid' AND year_num  = '$yearnow' ");
-$selectdata->execute();
-$rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
-
-
-$taxable_income_to_date = ($quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales) - ($quarter1_data['total_non_vat_purchase'] + $quarter1_data['total_vat_purchase'] + $rowdata->other_expenses_2);
-
-
-$grossincome = $quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales;
-
-$tax_rate_percent = ($rowdata->tax_rate / 100) * $taxable_income_to_date;
-
-$mcit_percent = ($rowdata->mcit / 100) * $grossincome;
-
-$preferred_income_tax_due = $rowdata->preferred_income_tax_due;
 
 
 
-if ($preferred_income_tax_due != 0) 
-{
-    $incometaxdue = $preferred_income_tax_due;
-}
-else
-{
-
-    if ($tax_rate_percent > $mcit_percent) 
-    {
-        $incometaxdue = $tax_rate_percent;
-    }
-    else
-    {
-        $incometaxdue = $mcit_percent;
-    }
-}
-
-
-
+        $quarter1_data = fetch_data($pdo,1,3,1,$yearnow,$branchid);
 
 
 
@@ -312,7 +245,7 @@ else
               <td><font size="2">Other Expenses</font></td>
               <td>
                   <font size="2">
-                      <input style="width:100%;text-align: center;" type="text" autocomplete="off" required value="<?= $rowdata->other_expenses ?>" name="q1_other_expenses">
+                      <input style="width:100%;text-align: center;" type="text" autocomplete="off" required value="<?= $quarter1_data['other_expenses'] ?>" name="q1_other_expenses">
                   </font>
               </td>
               <td>
@@ -364,7 +297,7 @@ else
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= $rowdata->tax_actually_paid_success ?>" required name="q1_tax_actually_paid" autocomplete="off">
+                value="<?= $quarter1_data['tax_actually_paid_success']; ?>" required name="q1_tax_actually_paid" autocomplete="off">
           </font>
         </td>
       </tr>
@@ -416,7 +349,7 @@ else
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= $rowdata->cost_of_sales ?>" autocomplete="off" required name="q1_less_cost_of_sales">
+                value="<?= $quarter1_data['cost_of_sales'] ?>" autocomplete="off" required name="q1_less_cost_of_sales">
           </font>
         </td>
       </tr>
@@ -438,7 +371,7 @@ else
         <td>
           <font size="2">
             <input type="text" disabled style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($grossincome ,2) ?>"  id="q1_gross_sales_accessory">
+                value="<?= number_format($quarter1_data['grossincome'] ,2) ?>"  id="q1_gross_sales_accessory">
           </font>
         </td>
       </tr>
@@ -531,13 +464,13 @@ else
         <td><font size="2">Other Expenses</font></td>
         <td>
             <font size="2">
-                <input style="width:100%;text-align: center;" type="text" value="<?= $rowdata->other_expenses_2 ?>" autocomplete="off" required name="q1_other_expenses_value_principal_2">
+                <input style="width:100%;text-align: center;" type="text" value="<?= $quarter1_data['other_expenses_2'] ?>" autocomplete="off" required name="q1_other_expenses_value_principal_2">
             </font>
         </td>
         <td>
           <font size="2">
             <input type="text" disabled style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($quarter1_data['total_non_vat_purchase'] + $quarter1_data['total_vat_purchase'] + $rowdata->other_expenses_2,2) ?>"  id="#">
+                value="<?= number_format($quarter1_data['total_non_vat_purchase'] + $quarter1_data['total_vat_purchase'] + $quarter1_data['other_expenses_2'],2) ?>"  id="#">
           </font>
         </td>
       </tr>
@@ -562,7 +495,7 @@ else
         <td align="center">
           <font size="2">
             <input type="text" disabled style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($taxable_income_to_date,2) ?>"  id="#">
+                value="<?= number_format($quarter1_data['taxable_income_to_date'],2) ?>"  id="#">
           </font>
         </td>
       </tr>
@@ -599,7 +532,7 @@ else
         <td>
           <font size="2">
             <input type="text" disabled style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format(($quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales) - ($quarter1_data['total_non_vat_purchase'] + $quarter1_data['total_vat_purchase'] + $rowdata->other_expenses_2),2) ?>"  id="#">
+                value="<?= number_format($quarter1_data['taxable_income_to_date'],2) ?>"  id="#">
           </font>
         </td>
       </tr>
@@ -615,17 +548,20 @@ else
         <td align="center">
             <font size="2">
                 <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= $rowdata->tax_rate ?>" required autocomplete="off" name="q1_tax_rate_percent">
+                value="<?= $quarter1_data['tax_rate'] ?>" required autocomplete="off" name="q1_tax_rate_percent">
             </font>
         </td>
 
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($tax_rate_percent,2) ?>" disabled id="#">
+                value="<?= number_format($quarter1_data['tax_rate_percent'],2) ?>" disabled id="#">
           </font>
         </td>
       </tr>
+
+
+
 
 
       <tr>
@@ -634,13 +570,13 @@ else
         <td>
             <font size="2">
                 <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= $rowdata->mcit ?>" required autocomplete="off" name="q1_mcit_percent">
+                value="<?= $quarter1_data['mcit'] ?>" required autocomplete="off" name="q1_mcit_percent">
             </font>
         </td>
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($mcit_percent,2) ?>" disabled id="q1_mcit_percent_accessory">
+                value="<?= number_format($quarter1_data['mcit_percent'],2) ?>" disabled id="q1_mcit_percent_accessory">
           </font>
         </td>
       </tr>
@@ -653,14 +589,14 @@ else
         <td>
             <font size="2">
                 <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= $rowdata->preferred_income_tax_due ?>" required autocomplete="off" name="q1_preffered_income_tax_due">
+                value="" disabled autocomplete="off" name="q1_preffered_income_tax_due">
             </font>
         </td>
         <td>
           <font size="2">
-            <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="" disabled id="#">
-          </font>
+                <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
+                value="<?= $quarter1_data['preferred_income_tax_due'] ?>" required autocomplete="off" name="q1_preffered_income_tax_due">
+            </font>
         </td>
       </tr>
 
@@ -676,7 +612,7 @@ else
         <td>
           <font size="2">
             <input type="text" disabled style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($incometaxdue,2) ?>"  id="#">
+                value="<?= number_format($quarter1_data['incometaxdue'],2) ?>"  id="#">
           </font>
         </td>
       </tr>
@@ -790,7 +726,7 @@ else
         <td align="center">
           <font size="2">
             <input type="text"  style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= $rowdata->income_tax_actually_paid_success ?>" autocomplete="off" required name="q1_income_tax_actually_paid">
+                value="<?= $quarter1_data['income_tax_actually_paid_success'] ?>" autocomplete="off" required name="q1_income_tax_actually_paid">
           </font>
         </td>
     </tr>

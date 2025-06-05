@@ -32,7 +32,7 @@
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="0" disabled id="#">
+                value="<?= number_format($quarter1_data['income_tax_actually_paid_success'],2) ?>" disabled id="#">
           </font>
         </td>
     </tr>

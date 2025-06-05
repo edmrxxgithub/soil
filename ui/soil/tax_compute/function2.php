@@ -17,6 +17,13 @@ $date_to = $yearnow.'-'.$monthto.'-'.$number_of_days;
 $calculated_risk_data = fetch_calculated_risk_data($pdo,$date_from,$date_to,$branchid,$quarter_num,$yearnow);
 
 
+$selectdata = $pdo->prepare("SELECT * FROM tb_tax_return WHERE quarter_num = '$quarter_num' AND branch_id = '$branchid' AND year_num  = '$yearnow' ");
+$selectdata->execute();
+$rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
+
+
+
+
   $select1 = $pdo->prepare("SELECT 
 
         SUM(net_amount) as total_sales_net_amount
@@ -121,9 +128,34 @@ $calculated_risk_data = fetch_calculated_risk_data($pdo,$date_from,$date_to,$bra
   $array['total_sales_revenue'] = $total_sales_revenue;
 
 
-  
-   // number_format($quarter1_data['total_sales_revenue'] - 
-   //                      ($quarter1_data['total_non_vat_purchase']+ $quarter1_data['total_vat_purchase']),2)
+$grossincome = $total_sales_revenue - $rowdata->cost_of_sales;
+
+$taxable_income_to_date = ($total_sales_revenue - $rowdata->cost_of_sales) - ($row4->total_non_vat_purchase_net_amount + $row3->total_vat_purchase_net_amount + $rowdata->other_expenses_2);
+
+$tax_rate_percent = ($rowdata->tax_rate / 100) * $taxable_income_to_date;
+
+$mcit_percent = ($rowdata->mcit / 100) * $grossincome;
+
+$preferred_income_tax_due = $rowdata->preferred_income_tax_due;
+
+
+
+if ($preferred_income_tax_due != 0) 
+{
+    $incometaxdue = $preferred_income_tax_due;
+}
+else
+{
+
+    if ($tax_rate_percent > $mcit_percent) 
+    {
+        $incometaxdue = $tax_rate_percent;
+    }
+    else
+    {
+        $incometaxdue = $mcit_percent;
+    }
+}
 
 
    $array['net_taxable_income'] = $total_sales_revenue - ($row3->total_vat_purchase_net_amount + $row4->total_non_vat_purchase_net_amount);
@@ -142,7 +174,19 @@ $calculated_risk_data = fetch_calculated_risk_data($pdo,$date_from,$date_to,$bra
   $array['calculated_risk_no_percent'] = $calculated_risk_data['calculated_risk_no_percent'];
   $array['calculated_risk_percent'] = $calculated_risk_data['calculated_risk_percent'];
 
-
+  $array['other_expenses'] = $rowdata->other_expenses;
+  $array['tax_actually_paid_success'] = $rowdata->tax_actually_paid_success;
+  $array['cost_of_sales'] = $rowdata->cost_of_sales;
+  $array['other_expenses_2'] = $rowdata->other_expenses_2;
+  $array['grossincome'] = $grossincome;
+  $array['taxable_income_to_date'] = $taxable_income_to_date;
+  $array['tax_rate'] = $rowdata->tax_rate;
+  $array['mcit'] = $rowdata->mcit;
+  $array['tax_rate_percent'] = $tax_rate_percent;
+  $array['mcit_percent'] = $mcit_percent;
+  $array['incometaxdue'] = $incometaxdue;
+  $array['preferred_income_tax_due'] = $preferred_income_tax_due;
+  $array['income_tax_actually_paid_success'] = $rowdata->income_tax_actually_paid_success;
 
 
   return $array;
