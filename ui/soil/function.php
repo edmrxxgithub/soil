@@ -1,4 +1,92 @@
 <?php
+function insert_data($pdo,$tablename,$data)
+{
+
+	$columns = implode(", ", array_keys($data));
+    $placeholders = ":" . implode(", :", array_keys($data));
+    $sql = "INSERT INTO $tablename ($columns) VALUES ($placeholders)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($data);
+
+}
+
+
+function update_data($pdo, $tablename, $data, $id)
+{
+
+	$set = implode(", ", array_map(fn($key) => "$key = :$key", array_keys($data)));
+	$sql = "UPDATE $tablename SET $set WHERE id = :id";
+	$data['id'] = $id;
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute($data);
+
+}
+
+
+function delete_data($pdo,$tablename,$id)
+{
+	$sql = "DELETE FROM $tablename  WHERE id = '$id' ";
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute();
+}
+
+
+
+function fetch_quarter_id($pdo,$quarter,$branchid,$yearnow)
+{
+	$select = $pdo->prepare("SELECT * FROM tb_tax_return WHERE quarter_num = '$quarter' AND branch_id = '$branchid' AND year_num = '$yearnow' ");
+	$select->execute();
+	$row = $select->fetch(PDO::FETCH_OBJ);
+
+	return $row->id;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function fetch_data_data1($pdo,$quarter,$year_now,$branchid)
+{
+	$select = $pdo->prepare("SELECT * FROM tb_tax_return WHERE quarter_num = '$quarter' AND branch_id = '$branchid' AND year_num = '$year_now' ");
+	$select->execute();
+	$count = $select->rowCount();
+
+	return $count;
+}
+
+
 function fetch_branch_data($pdo,$branchid)
 {
 	$select = $pdo->prepare("SELECT * FROM tb_tax_branch WHERE id = '$branchid' ");

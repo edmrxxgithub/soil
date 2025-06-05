@@ -44,7 +44,7 @@ include_once 'tax_computation_vt_q1.php';
         var branch_id = '<?= $branchid ?>';
  		
         
-        // alert('God is good, life is good!');        
+        // alert('God is good, life is good!47474');        
 
         $(document).on('click','#btn_edit_quarter1',function()
         {
@@ -52,6 +52,18 @@ include_once 'tax_computation_vt_q1.php';
             window.location.href = "tax_view_quarter_semi_data.php?quarter=1&yearnow="+year_now+'&branchid='+branch_id+'&monthfrom=1&monthto=3';
 
         })
+
+
+
+
+        // $(document).on('click','#btn_edit_all_data_quarter1',function()
+        // {
+
+        //     window.location.href = "tax_view_quarter_all_data.php?quarter=1&yearnow="+year_now+'&branchid='+branch_id+'&monthfrom=1&monthto=3';
+
+        // })
+
+
 
 
  		

@@ -1,4 +1,166 @@
 <?php
+
+
+
+function fetch_data($pdo,$monthfrom,$monthto,$quarter_num,$yearnow,$branchid)
+{
+
+  // $select1 = $pdo->prepare("SELECT SUM(net_amount) as total_sales_net_amount FROM tb_tax_sales WHERE date between '$date_from' and '$date_to' and branch_id = '$branchid' ");
+  // $select1->execute();
+  // $row1 = $select1->fetch(PDO::FETCH_OBJ);
+
+$date_from = $yearnow.'-'.$monthfrom.'-1';
+$number_of_days = date("t", strtotime("$yearnow-$monthto-1"));
+$date_to = $yearnow.'-'.$monthto.'-'.$number_of_days;
+
+
+$calculated_risk_data = fetch_calculated_risk_data($pdo,$date_from,$date_to,$branchid,$quarter_num,$yearnow);
+
+
+  $select1 = $pdo->prepare("SELECT 
+
+        SUM(net_amount) as total_sales_net_amount
+        
+        FROM 
+
+        tb_tax_sales 
+
+        WHERE 
+
+        date BETWEEN '$date_from' AND 
+
+        '$date_to' AND branch_id = '$branchid' AND vat_percent != 0 AND vwt_percent = 0 ");
+
+  $select1->execute();
+  $row1 = $select1->fetch(PDO::FETCH_OBJ);
+
+
+
+  $select_government_sales = $pdo->prepare("SELECT 
+
+        SUM(net_amount) as net_amount_total
+        
+        FROM 
+
+        tb_tax_sales 
+
+        WHERE 
+
+        date BETWEEN '$date_from' AND 
+
+        '$date_to' AND branch_id = '$branchid' AND vat_percent != 0  AND vwt_percent != 0 ");
+
+  $select_government_sales->execute();
+  $row_government_sales = $select_government_sales->fetch(PDO::FETCH_OBJ);
+
+
+
+  $select_zero_rated_sales = $pdo->prepare("SELECT 
+
+        SUM(net_amount) as net_amount_total
+        
+        FROM 
+
+        tb_tax_sales 
+
+        WHERE 
+
+        date BETWEEN '$date_from' AND 
+
+        '$date_to' AND branch_id = '$branchid' AND vat_percent = 0 AND vwt_percent != 0 ");
+
+  $select_zero_rated_sales->execute();
+  $row_zero_rated_sales = $select_zero_rated_sales->fetch(PDO::FETCH_OBJ);
+
+
+  $select_exempt_sales = $pdo->prepare("SELECT 
+
+        SUM(net_amount) as net_amount_total
+        
+        FROM 
+
+        tb_tax_sales 
+
+        WHERE 
+
+        date BETWEEN '$date_from' AND 
+
+        '$date_to' AND branch_id = '$branchid' AND vat_percent = 0  AND vwt_percent = 0 ");
+
+  $select_exempt_sales->execute();
+  $row_exempt_sales = $select_exempt_sales->fetch(PDO::FETCH_OBJ);
+
+
+  $select2 = $pdo->prepare("SELECT SUM(net_amount) as total_purchase_net_amount FROM tb_tax_purchase WHERE date between '$date_from' and '$date_to' and branch_id = '$branchid' ");
+  $select2->execute();
+  $row2 = $select2->fetch(PDO::FETCH_OBJ);
+
+  $select3 = $pdo->prepare("SELECT SUM(net_amount) as total_vat_purchase_net_amount FROM tb_tax_vat_purchase WHERE date between '$date_from' and '$date_to' and branch_id = '$branchid' ");
+  $select3->execute();
+  $row3 = $select3->fetch(PDO::FETCH_OBJ);
+
+  $select4 = $pdo->prepare("SELECT SUM(gross_amount) as total_non_vat_purchase_net_amount FROM tb_tax_non_vat_purchase WHERE date between '$date_from' and '$date_to' and branch_id = '$branchid' ");
+  $select4->execute();
+  $row4 = $select4->fetch(PDO::FETCH_OBJ);
+
+   $select5 = $pdo->prepare("SELECT SUM(withholding_total_vwt) as withholding_total_vwt FROM tb_tax_sales WHERE date between '$date_from' and '$date_to' and branch_id = '$branchid' ");
+  $select5->execute();
+  $row5 = $select5->fetch(PDO::FETCH_OBJ);
+
+  $select6 = $pdo->prepare("SELECT SUM(withholding_total_cwt) as withholding_total_cwt FROM tb_tax_sales WHERE date between '$date_from' and '$date_to' and branch_id = '$branchid' ");
+  $select6->execute();
+  $row6 = $select6->fetch(PDO::FETCH_OBJ);
+
+
+  $total_sales_revenue = $row1->total_sales_net_amount + 
+                         $row_government_sales->net_amount_total + 
+                         $row_zero_rated_sales->net_amount_total + 
+                         $row_exempt_sales->net_amount_total;
+
+
+  $array['total_sales_revenue'] = $total_sales_revenue;
+
+
+  
+   // number_format($quarter1_data['total_sales_revenue'] - 
+   //                      ($quarter1_data['total_non_vat_purchase']+ $quarter1_data['total_vat_purchase']),2)
+
+
+   $array['net_taxable_income'] = $total_sales_revenue - ($row3->total_vat_purchase_net_amount + $row4->total_non_vat_purchase_net_amount);
+
+  $array['total_sales'] = $row1->total_sales_net_amount;
+  $array['total_government_sales'] = $row_government_sales->net_amount_total;
+  $array['total_zero_rated_sales'] = $row_zero_rated_sales->net_amount_total;
+  $array['total_exempt_sales'] = $row_exempt_sales->net_amount_total;
+
+  $array['total_purchase'] = $row2->total_purchase_net_amount;
+  $array['total_vat_purchase'] = $row3->total_vat_purchase_net_amount;
+  $array['total_non_vat_purchase'] = $row4->total_non_vat_purchase_net_amount;
+  $array['total_swt_vt'] = $row5->withholding_total_vwt;
+  $array['total_swt_it'] = $row6->withholding_total_cwt;
+
+  $array['calculated_risk_no_percent'] = $calculated_risk_data['calculated_risk_no_percent'];
+  $array['calculated_risk_percent'] = $calculated_risk_data['calculated_risk_percent'];
+
+
+
+
+  return $array;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 function fetch_per_quarter_data($pdo,$yearnow,$branchid,$monthfrom,$monthto,$quarter_num)
 {
 

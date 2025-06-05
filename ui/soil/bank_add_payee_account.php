@@ -48,9 +48,6 @@ if (isset($_POST['addpayee']))
   }
 
   
-
-  
-
 }
 
 ?>
