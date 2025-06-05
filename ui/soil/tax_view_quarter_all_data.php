@@ -35,10 +35,35 @@ $selectdata->execute();
 $rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
 
 
+$taxable_income_to_date = ($quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales) - ($quarter1_data['total_non_vat_purchase'] + $quarter1_data['total_vat_purchase'] + $rowdata->other_expenses_2);
+
+
+$grossincome = $quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales;
+
+$tax_rate_percent = ($rowdata->tax_rate / 100) * $taxable_income_to_date;
+
+$mcit_percent = ($rowdata->mcit / 100) * $grossincome;
+
+$preferred_income_tax_due = $rowdata->preferred_income_tax_due;
 
 
 
+if ($preferred_income_tax_due != 0) 
+{
+    $incometaxdue = $preferred_income_tax_due;
+}
+else
+{
 
+    if ($tax_rate_percent > $mcit_percent) 
+    {
+        $incometaxdue = $tax_rate_percent;
+    }
+    else
+    {
+        $incometaxdue = $mcit_percent;
+    }
+}
 
 ?>
 
@@ -69,7 +94,19 @@ $rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
 <?php
 
 
-echo $quarter1_data['total_sales_revenue'];
+// echo $quarter1_data['total_sales_revenue'];
+// echo '<br>';
+// echo $taxable_income_to_date;
+// echo '<br>';
+// echo $rowdata->tax_rate;
+// echo '<br>';
+// echo $tax_rate_percent ;
+// echo '<br>';
+// echo $grossincome;
+// echo '<br>';
+// echo $mcit_percent;
+// echo '<br>';
+// echo $preferred_income_tax_due;
 
 if (isset($_POST['update_data'])) 
 {
@@ -129,6 +166,43 @@ if (isset($_POST['update_data']))
 $selectdata = $pdo->prepare("SELECT * FROM tb_tax_return WHERE quarter_num = '$quarter' AND branch_id = '$branchid' AND year_num  = '$yearnow' ");
 $selectdata->execute();
 $rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
+
+
+$taxable_income_to_date = ($quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales) - ($quarter1_data['total_non_vat_purchase'] + $quarter1_data['total_vat_purchase'] + $rowdata->other_expenses_2);
+
+
+$grossincome = $quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales;
+
+$tax_rate_percent = ($rowdata->tax_rate / 100) * $taxable_income_to_date;
+
+$mcit_percent = ($rowdata->mcit / 100) * $grossincome;
+
+$preferred_income_tax_due = $rowdata->preferred_income_tax_due;
+
+
+
+if ($preferred_income_tax_due != 0) 
+{
+    $incometaxdue = $preferred_income_tax_due;
+}
+else
+{
+
+    if ($tax_rate_percent > $mcit_percent) 
+    {
+        $incometaxdue = $tax_rate_percent;
+    }
+    else
+    {
+        $incometaxdue = $mcit_percent;
+    }
+}
+
+
+
+
+
+
   
 }
 
@@ -364,7 +438,7 @@ $rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
         <td>
           <font size="2">
             <input type="text" disabled style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales ,2) ?>"  id="q1_gross_sales_accessory">
+                value="<?= number_format($grossincome ,2) ?>"  id="q1_gross_sales_accessory">
           </font>
         </td>
       </tr>
@@ -488,7 +562,7 @@ $rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
         <td align="center">
           <font size="2">
             <input type="text" disabled style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format(($quarter1_data['total_sales_revenue'] - $rowdata->cost_of_sales) - ($quarter1_data['total_non_vat_purchase'] + $quarter1_data['total_vat_purchase'] + $rowdata->other_expenses_2),2) ?>"  id="#">
+                value="<?= number_format($taxable_income_to_date,2) ?>"  id="#">
           </font>
         </td>
       </tr>
@@ -548,7 +622,7 @@ $rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="" disabled id="#">
+                value="<?= number_format($tax_rate_percent,2) ?>" disabled id="#">
           </font>
         </td>
       </tr>
@@ -566,7 +640,7 @@ $rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
         <td>
           <font size="2">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="" disabled id="q1_mcit_percent_accessory">
+                value="<?= number_format($mcit_percent,2) ?>" disabled id="q1_mcit_percent_accessory">
           </font>
         </td>
       </tr>
@@ -602,7 +676,7 @@ $rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
         <td>
           <font size="2">
             <input type="text" disabled style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value=""  id="q1_income_tax_due_accessory">
+                value="<?= number_format($incometaxdue,2) ?>"  id="#">
           </font>
         </td>
       </tr>
@@ -696,7 +770,7 @@ $rowdata = $selectdata->fetch(PDO::FETCH_OBJ);
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($quarter1_data['net_taxable_income'] - $quarter1_data['total_swt_it'],2) ?>" disabled id="#">
+                value="<?= number_format($quarter1_data['total_swt_it'],2) ?>" disabled id="#">
           </font>
         </td>
     </tr>
