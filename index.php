@@ -40,7 +40,9 @@ if (isset($_POST['btn_login']))
           $_SESSION['name'] = $row['name'];
           $_SESSION['user_level_id'] = $row['user_level_id'];
           // header('refresh: 1;ui/dashboard.php');
-          header('refresh: 1;ui/soil/dashboard.php');
+          // header('refresh: 1;ui/soil/dashboard.php');
+          header('refresh: 1;ui/soil/tax_view_client.php?id=1');
+          
           
         }
 
