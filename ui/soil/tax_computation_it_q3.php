@@ -1,6 +1,7 @@
+
 <!-- card collapse card open -->
-<div class="card card-default collapsed-card">
-  <!-- <div class="card-header" style="background-color:rgba(12,25,60,255);"> -->
+<!-- <div class="card card-default"> -->
+<div class="card card-default collapsed-card">    
     <div class="card-header" style="background-color:rgb(249,249,247); padding: 5px 10px;">
     <h3 class="card-title text-black"  style="font-weight:bold;">IT COMPUTATION QUARTER 3</h3>
 
@@ -14,45 +15,54 @@
 <div class="card-body">
 
 <table  border="1" width="100%">
+
+  <!-- <input type="text" id="samplesampletext" name=""> -->
+
       
       <tr align="center">
         <td style="font-weight:bold;">DESCRIPTION</td>
         <td style="font-weight:bold;">AMOUNT</td>
-        <td style="font-weight:bold;">12%</td>
-      </tr>
-
-        <tr align="center">
-          <td>Vatables Sales</td>
-          <td></td>
-          <td></td>
-        </tr>
-
-      <tr align="center">
-        <td>Domestic Purchase</td>
-        <td></td>
-        <td></td>
       </tr>
 
       <tr align="center">
-        <td>Calculated Risk</td>
-        <td align="center" id="calculated_risk"></td>
-        <td align="center" id="simulation_total_output"></td>
+        <td><font size="2">Gross sales</font></td>
+        <td align="center" id="#"><?= number_format($quarter3_it_data['grossincome'],2) ?></td>
       </tr>
 
       <tr align="center">
-        <td style="font-weight:bold;">TOTAL</td>
-        <td class="text-black" colspan="2">
-          <input type="text" style="font-weight: bold; width: 100%;" id="simulation_total" value="">
-        </td>
+        <td><font size="2">Cost of sales</font></td>
+        <td align="center" id="#"><?= number_format($quarter3_it_data['cost_of_sales'],2) ?></td>
       </tr>
-
 
       <tr align="center">
-        <td style="font-weight:bold;">BENCHMARK</td>
-        <td class="text-black" colspan="2" align="center"></td>
+        <td><font size="2">Deductions</font></td>
+        <td align="center" id="#"><?= number_format($quarter3_it_data['total_non_vat_purchase'] + $quarter3_it_data['total_vat_purchase'] + $quarter3_it_data['other_expenses_2'],2) ?></td>
       </tr>
+
+      <!-- <tr align="center">
+        <td><font size="2">Calculated risk</font></td>
+        <td align="center" id="#">0.00</td>
+      </tr> -->
+
+      <tr align="center">
+        <td><font size="2">Taxable income</font></td>
+        <td align="center" id="#"><?= number_format($quarter3_it_data['taxable_income_to_date'],2) ?></td>
+      </tr>
+
+
+     <!--  <tr align="center">
+        <td><font size="2">Preferred income tax</font></td>
+        <td align="center" id="#"><?= number_format($quarter3_it_data['incometaxdue'],2) ?></td>
+      </tr> -->
 
 </table>
+
+<br>
+
+<center>
+  <button class="btn btn-md btn-success" id="btn_edit_quarter1">Edit</button>
+  <!-- <button class="btn btn-md btn-danger"  id="btn_undo_q1">Undo</button> -->
+</center>
 
 
 </div>
@@ -60,6 +70,7 @@
 
 </div>
 <!-- card collapse card close -->
+
 
 
 

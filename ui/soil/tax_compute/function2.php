@@ -1,5 +1,18 @@
 <?php
 
+function fetch_per_quarter_it_data($pdo,$yearnow,$branchid,$monthfrom,$monthto,$quarter_num)
+{
+
+
+	// Define date range
+$date_from = "$yearnow-$monthfrom-1";
+$last_day = date("t", strtotime("$yearnow-$monthto-1"));
+$date_to = "$yearnow-$monthto-$last_day";
+
+
+return $date_from.' '.$date_to;
+
+}
 
 
 function fetch_data($pdo,$monthfrom,$monthto,$quarter_num,$yearnow,$branchid)

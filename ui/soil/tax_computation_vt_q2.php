@@ -1,7 +1,7 @@
 
 <!-- card collapse card open -->
-<div class="card card-default">
-<!-- <div class="card card-default collapsed-card">     -->
+<!-- <div class="card card-default"> -->
+<div class="card card-default collapsed-card">    
     <div class="card-header" style="background-color:rgb(249,249,247); padding: 5px 10px;">
     <h3 class="card-title text-black"  style="font-weight:bold;">VT COMPUTATION QUARTER 2</h3>
 

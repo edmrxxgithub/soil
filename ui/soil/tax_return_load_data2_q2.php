@@ -22,8 +22,8 @@ $quarter1_data = fetch_data($pdo,4,6,2,$yearnow,$branchid);
 
 
 <!-- ///////////// QUARTER 1 TAX RETURN  /////////// -->
-<div class="card card-default ">
-<!-- <div class="card card-default collapsed-card"> -->
+<!-- <div class="card card-default "> -->
+<div class="card card-default collapsed-card">
   <!-- <div class="card-header" style="background-color:rgba(12,25,60,255);"> -->
     <div class="card-header" style="background-color:rgb(237,233,207,255);">
     <h3 class="card-title text-black" >QUARTER 2</h3>
@@ -177,12 +177,12 @@ $quarter1_data = fetch_data($pdo,4,6,2,$yearnow,$branchid);
     
         // alert(year_now+' '+branch_id);
 
-        $(document).on('click','#btn_edit_all_data_quarter1',function()
-        {
+        // $(document).on('click','#btn_edit_all_data_quarter1',function()
+        // {
 
-            window.location.href = "tax_view_quarter_all_data.php?quarter=1&yearnow="+year_now+'&branchid='+branch_id+'&monthfrom=1&monthto=3';
+        //     window.location.href = "tax_view_quarter_all_data.php?quarter=1&yearnow="+year_now+'&branchid='+branch_id+'&monthfrom=1&monthto=3';
 
-        })
+        // })
 
         $(document).on('click','#btn_edit_all_data_quarter2',function()
         {
