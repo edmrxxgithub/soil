@@ -2,6 +2,7 @@
 include_once 'connectdb.php';
 include_once 'function.php';
 include_once 'tax_compute/function2.php';
+// include_once 'tax_compute/function3.php';
 
 session_start();
 
@@ -11,21 +12,20 @@ if($_SESSION['userid']=="" )
 header('location:../../index.php');
 
 }
-else
-{
-  	$quarter = $_GET['quarter'];
-	$yearnow = $_GET['yearnow'];
-	$branchid = $_GET['branchid'];
-	$monthfrom = $_GET['monthfrom'];
-	$monthto = $_GET['monthto'];
-}
 
 
+$quarter = $_GET['quarter'];
+$yearnowphp = $_GET['yearnow'];
+$branchid = $_GET['branchid'];
+$monthfrom = $_GET['monthfrom'];
+$monthto = $_GET['monthto'];
 
 
 $branchdata = fetch_branch_data($pdo,$branchid);
-$quarter1_data = fetch_per_quarter_data($pdo,$yearnow,$branchid,1,3,1);
+// $quarter1_data = fetch_per_quarter_data($pdo,$yearnowphp,$branchid,1,3,1);
+$quarter1_data = fetch_per_quarter_data($pdo,$yearnowphp,$branchid,$monthfrom,$monthto,$quarter);
 
+// fetch_per_quarter_data($pdo,$yearnow,$branchid,$monthfrom,$monthto,$quarter_num)
 
 
 include_once "header.php";
@@ -77,15 +77,15 @@ include_once "header.php";
             <div class="card card-grey card-outline">
                 <div class="card-header" style="background-color:rgba(50,63,81,255);">
                     <h5 class="m-0 text-white" >
-                    	<a href="tax_client.php" class="text-white">View Clients</a> 
-                    	 / 
-                    	<a href="tax_view_client.php?id=<?= $branchdata['clientid']; ?>" class="text-white"><?= $branchdata['clientname']; ?></a> 
-                    	/
-                    	<a href="tax_view_client_business.php?id=<?= $branchdata['businessid']; ?>" class="text-white"><?= $branchdata['businessname']; ?></a> 
-                    	/
-                    	<a href="tax_view_branch_data.php?id=<?= $branchdata['branchid']; ?>&yearnow=<?= $yearnow ?>" class="text-white"><?= $branchdata['branchname']; ?></a> 
-                    	/
-                    	Quarter <?= $quarter ?> data
+                      <a href="tax_client.php" class="text-white">View Clients</a> 
+                       / 
+                      <a href="tax_view_client.php?id=<?= $branchdata['clientid']; ?>" class="text-white"><?= $branchdata['clientname']; ?></a> 
+                      /
+                      <a href="tax_view_client_business.php?id=<?= $branchdata['businessid']; ?>" class="text-white"><?= $branchdata['businessname']; ?></a> 
+                      /
+                      <a href="tax_view_branch_data.php?id=<?= $branchdata['branchid']; ?>&yearnow=<?= $yearnowphp ?>" class="text-white"><?= $branchdata['branchname']; ?></a> 
+                      /
+                      Quarter <?= $quarter ?> data
                     </h5>
                 </div>
 
@@ -93,7 +93,7 @@ include_once "header.php";
 
 <?php
 
-
+// echo $quarter.' '.$yearnow.' '.$branchid.' '.$monthfrom.' '.$monthto;
 
 if (isset($_POST['update_quarter_data'])) 
 {
@@ -154,7 +154,7 @@ else
 }
 
 
-$quarter1_data = fetch_per_quarter_data($pdo,$yearnow,$branchid,1,3,1);
+$quarter1_data = fetch_per_quarter_data($pdo,$yearnowphp,$branchid,$monthfrom,$monthto,$quarter);
 
 
 ?>
@@ -167,73 +167,73 @@ $quarter1_data = fetch_per_quarter_data($pdo,$yearnow,$branchid,1,3,1);
                 <div class="card-body">
                   <!-- row open --> 
                   <div class="col-md-12">
-	                  <div class="row">
-	                    	<div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
 
-							<table  border="1" width="100%">
+              <table  border="1" width="100%">
 
-							  <input type="hidden" name="quarter" value="<?= $quarter; ?>">
-							  <input type="hidden" name="yearnow" value="<?= $yearnow; ?>">
-							  <input type="hidden" name="branchid" value="<?= $branchid; ?>">
+                <input type="hidden" name="quarter" value="<?= $quarter; ?>">
+                <input type="hidden" name="yearnow" value="<?= $yearnowphp; ?>">
+                <input type="hidden" name="branchid" value="<?= $branchid; ?>">
 
-							      
-							      <tr align="center">
-							        <td style="font-weight:bold;">DESCRIPTION</td>
-							        <td style="font-weight:bold;">AMOUNT</td>
-							        <td style="font-weight:bold;">12%</td>
-							      </tr>
+                    
+                    <tr align="center">
+                      <td style="font-weight:bold;">DESCRIPTION</td>
+                      <td style="font-weight:bold;">AMOUNT</td>
+                      <td style="font-weight:bold;">12%</td>
+                    </tr>
 
-							        <tr align="center">
-							          <td><font size="2">Vatables Sales</font></td>
-							          <td align="center" id="q1_vatable_sales"><?= number_format($quarter1_data['vatable_sales'],2) ?></td>
-							          <td align="center" id="q1_vatable_sales_percent"><?= number_format($quarter1_data['vatable_sales'] * 0.12,2) ?></td>
-							        </tr>
+                      <tr align="center">
+                        <td><font size="2">Vatables Sales</font></td>
+                        <td align="center" id="q1_vatable_sales"><?= number_format($quarter1_data['vatable_sales'],2) ?></td>
+                        <td align="center" id="q1_vatable_sales_percent"><?= number_format($quarter1_data['vatable_sales'] * 0.12,2) ?></td>
+                      </tr>
 
-							      <tr align="center">
-							        <td><font size="2">Domestic purchase</font></td>
-							        <td align="center" id="q1_domestic_purchase"><?= number_format($quarter1_data['domestic_purchase'],2) ?></td>
-							        <td align="center" id="q1_domestic_purchase_percent"><?= number_format($quarter1_data['domestic_purchase'] * 0.12,2) ?></td>
-							      </tr>
+                    <tr align="center">
+                      <td><font size="2">Domestic purchase</font></td>
+                      <td align="center" id="q1_domestic_purchase"><?= number_format($quarter1_data['domestic_purchase'],2) ?></td>
+                      <td align="center" id="q1_domestic_purchase_percent"><?= number_format($quarter1_data['domestic_purchase'] * 0.12,2) ?></td>
+                    </tr>
 
-							      <tr align="center">
-							        <td><font size="2">Calculated risk</font></td>
-							        <td align="center" id="q1_calculated_risk"><?= number_format($quarter1_data['calculated_risk_no_percent'],2) ?></td>
-							        <td align="center" id="q1_calculated_risk_percent"><?= number_format($quarter1_data['calculated_risk_percent'],2) ?></td>
-							      </tr>
+                    <tr align="center">
+                      <td><font size="2">Calculated risk</font></td>
+                      <td align="center" id="q1_calculated_risk"><?= number_format($quarter1_data['calculated_risk_no_percent'],2) ?></td>
+                      <td align="center" id="q1_calculated_risk_percent"><?= number_format($quarter1_data['calculated_risk_percent'],2) ?></td>
+                    </tr>
 
-							      <tr align="center">
-							        <td style="font-weight:bold;">TOTAL</td>
-							        <!-- <td class="text-black" colspan="2">
-							          <input type="text" style="width: 100%; text-align: center;" id="q1_total_payment_computation" 
-							           value="">
-							        </td> -->
-							        <td align="center" id="#"><?= number_format($quarter1_data['totalpaidrisk_no_percent'],2) ?></td>
-							        <td align="center" id="#">
-							        	<input type="text" style="width:100%;text-align:center;" value="<?= number_format($quarter1_data['totalpaidrisk_percent'],2,'.','') ?>" name="total_risk_payment" autocomplete="off">
-							        </td>
-							      </tr>
+                    <tr align="center">
+                      <td style="font-weight:bold;">TOTAL</td>
+                      <!-- <td class="text-black" colspan="2">
+                        <input type="text" style="width: 100%; text-align: center;" id="q1_total_payment_computation" 
+                         value="">
+                      </td> -->
+                      <td align="center" id="#"><?= number_format($quarter1_data['totalpaidrisk_no_percent'],2) ?></td>
+                      <td align="center" id="#">
+                        <input type="text" style="width:100%;text-align:center;" value="<?= number_format($quarter1_data['totalpaidrisk_percent'],2,'.','') ?>" name="total_risk_payment" autocomplete="off">
+                      </td>
+                    </tr>
 
 
-							      <tr align="center">
-							        <td style="font-weight:bold;">BENCHMARK</td>
-							        <td class="text-black" colspan="2" id="q1_benchmark_total_vt_computation" align="center" style="font-weight:bold;">
-							          <?= number_format($quarter1_data['benchmark'],2) ?>%
-							        </td>
-							      </tr>
+                    <tr align="center">
+                      <td style="font-weight:bold;">BENCHMARK</td>
+                      <td class="text-black" colspan="2" id="q1_benchmark_total_vt_computation" align="center" style="font-weight:bold;">
+                        <?= number_format($quarter1_data['benchmark'],2) ?>%
+                      </td>
+                    </tr>
 
-							</table>
+              </table>
 
-							<center>
-							<button type="submit" class="btn btn-primary btn-md mt-4" name="update_quarter_data">Update data</button>
-							<!-- <button type="buttton" class="btn btn-danger btn-md mt-4" id="undo_quarter_data">Undo</button> -->
+              <center>
+              <button type="submit" class="btn btn-primary btn-md mt-4" name="update_quarter_data">Update data</button>
+              <!-- <button type="buttton" class="btn btn-danger btn-md mt-4" id="undo_quarter_data">Undo</button> -->
               <input type="button" class="btn btn-danger btn-md mt-4" id="undo_quarter_data" value="Undo data">
-							</center>
+              </center>
 
-	                    	</div>
+                        </div>
 
 
 
-	                  </div>
+                    </div>
                   </div>
                   <!-- row close --> 
                 </div>  
@@ -301,19 +301,19 @@ unset($_SESSION['status']);
 
 
   <script type="text/javascript">
-  	$(document).ready(function()
-  	{
+    $(document).ready(function()
+    {
 
-  		var quarter = '<?= $quarter ?>';
-  		var yearnow = '<?= $yearnow ?>';
-  		var branchid = '<?= $branchid ?>';
+      var quarter = '<?= $quarter ?>';
+      var yearnow = '<?= $yearnowphp ?>';
+      var branchid = '<?= $branchid ?>';
 
-  		
+      
 
-  		$(document).on('click','#undo_quarter_data',function()
-  		{
+      $(document).on('click','#undo_quarter_data',function()
+      {
 
-  		
+      
         Swal.fire({
             title: 'Confirm undo data?',
             text: "Press yes to continue!",
@@ -344,10 +344,10 @@ unset($_SESSION['status']);
           }) 
 
 
-  		 })
+       })
 
 
-  	})
+    })
   </script>
 
 

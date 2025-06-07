@@ -17,7 +17,7 @@ $quarter4_data = fetch_per_quarter_data($pdo,$yearnow,$branchid,10,12,4);
 
 
 include_once 'tax_computation_vt_q1.php';
-// include_once 'tax_computation_vt_q2.php';
+include_once 'tax_computation_vt_q2.php';
 // include_once 'tax_computation_vt_q3.php';
 // include_once 'tax_computation_vt_q4.php';
 // include_once 'tax_computation_it_q1.php';
@@ -53,7 +53,12 @@ include_once 'tax_computation_vt_q1.php';
 
         })
 
+        $(document).on('click','#btn_edit_quarter2',function()
+        {
 
+            window.location.href = "tax_view_quarter_semi_data.php?quarter=2&yearnow="+year_now+'&branchid='+branch_id+'&monthfrom=4&monthto=6';
+
+        })
 
 
         // $(document).on('click','#btn_edit_all_data_quarter1',function()

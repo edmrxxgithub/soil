@@ -16,9 +16,18 @@ include_once 'function.php';
 		$subdata=array();
 
 		$subdata[]= '<center>'.$row->id.'</center>';
-		$subdata[]= '<left><font size="3">'.$row->name.'</font></left>';
-		$subdata[]= '<center><font size="3">'.$row->tin.'</font></center>';
-		$subdata[]= '<left><font size="3">'.$row->address.'</font></left>';
+		
+		$subdata[]= '<left>
+						<font size="2">'.$row->name.'</font>
+					</left>';
+
+		$subdata[]= '<center>
+						<font size="2">'.$row->tin.'</font>
+					</center>';
+
+		$subdata[]= '<left>
+						<font size="2">'.$row->address.'</font>
+					</left>';
 		
 		$subdata[]= '
 		<center>

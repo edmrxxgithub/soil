@@ -20,8 +20,8 @@ $quarter1_data = fetch_data($pdo,1,3,1,$yearnow,$branchid);
 
 
 <!-- ///////////// QUARTER 1 TAX RETURN  /////////// -->
-<div class="card card-default ">
-<!-- <div class="card card-default collapsed-card"> -->
+<!-- <div class="card card-default "> -->
+<div class="card card-default collapsed-card">
   <!-- <div class="card-header" style="background-color:rgba(12,25,60,255);"> -->
     <div class="card-header" style="background-color:rgb(237,233,207,255);">
     <h3 class="card-title text-black" >QUARTER 1</h3>

@@ -14,7 +14,7 @@ header('location:../../index.php');
 else
 {
   	$quarter = $_GET['quarter'];
-  	$yearnow = $_GET['yearnow'];
+  	$yearnowphp = $_GET['yearnow'];
   	$branchid = $_GET['branchid'];
   	$monthfrom = $_GET['monthfrom'];
   	$monthto = $_GET['monthto'];
@@ -24,12 +24,13 @@ else
 
 
 $branchdata = fetch_branch_data($pdo,$branchid);
-$quarter1_data = fetch_data($pdo,1,3,1,$yearnow,$branchid);
-
+$quarter1_data = fetch_data($pdo,$monthfrom,$monthto,$quarter,$yearnowphp,$branchid);
+// fetch_data($pdo,$monthfrom,$monthto,$quarter_num,$yearnow,$branchid)
 
 include_once "header.php";
 
 
+// echo $quarter.' '.$yearnow.' '.$branchid.' '.$monthfrom.' '.$monthto;
 
 ?>
 
@@ -59,6 +60,7 @@ include_once "header.php";
 
 <?php
 
+// echo $quarter.' '.$yearnowphp.' '.$branchid.' '.$monthfrom.' '.$monthto;
 
 // echo $quarter1_data['total_sales_revenue'];
 // echo '<br>';
@@ -132,7 +134,7 @@ if (isset($_POST['update_data']))
 
 
 
-        $quarter1_data = fetch_data($pdo,1,3,1,$yearnow,$branchid);
+$quarter1_data = fetch_data($pdo,$monthfrom,$monthto,$quarter,$yearnow,$branchid);
 
 
 
@@ -195,7 +197,7 @@ if (isset($_POST['update_data']))
 
 
 <input type="hidden" value="<?= $quarter ?>"  name="quarter">
-<input type="hidden" value="<?= $yearnow ?>"  name="yearnow">
+<input type="hidden" value="<?= $yearnowphp ?>"  name="yearnow">
 <input type="hidden" value="<?= $branchid ?>" name="branchid">
 
 <div class="col-sm-12 col-md-6 col-lg-6">
@@ -706,7 +708,7 @@ if (isset($_POST['update_data']))
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($quarter1_data['total_swt_it'],2) ?>" disabled id="#">
+                value="<?= number_format($quarter1_data['incometaxdue'] - $quarter1_data['total_swt_it'],2) ?>" disabled id="#">
           </font>
         </td>
     </tr>

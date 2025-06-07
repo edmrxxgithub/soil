@@ -18,23 +18,36 @@ include_once 'function.php';
 
 		$subdata=array();
 
-		$subdata[]= '<center>'.$row->id.'</center>';
+		$subdata[]= '<center>
+						<font size="2">'.$row->id.'</font>
+					</center>';
+
 		$subdata[]= '<left>
-						<a href="tax_view_client.php?id='.$row->id.'">'.$row->name.'</a>
+						<font size="2">
+							<a href="tax_view_client.php?id='.$row->id.'">'.$row->name.'</a>
+						</font>
 					</left>';
-		$subdata[]= '<center>'.$num_of_business.'</center>';
-		$subdata[]= '<center>'.$row->tin.'</center>';
-		$subdata[]= '<left>'.$row->address.'</left>';
+
+		$subdata[]= '<center>
+						<font size="2">'.$num_of_business.'</font>
+					</center>';
+
+		$subdata[]= '<center>
+						<font size="2">'.$row->tin.'</font>
+					</center>';
+
+		$subdata[]= '<left>
+						<font size="2">'.$row->address.'</font>
+					</left>';
 		
 		$subdata[]= '
 		<center>
-			<div class="btn-group">
-
-				<a href="tax_view_client.php?id='.$row->id.'" class="btn btn-primary btn-sm"><span class="fa fa-eye"  data-toggle="tooltip" title="View Client" ></span></a>
-
-				<a href="tax_edit_client.php?id='.$row->id.'" class="btn btn-success btn-sm"><span class="fa fa-edit"  data-toggle="tooltip" title="Edit Client" ></span></a>
-
-			</div>
+			<font size="2">
+				<div class="btn-group">
+					<a href="tax_view_client.php?id='.$row->id.'" class="btn btn-primary btn-sm"><span class="fa fa-eye"  data-toggle="tooltip" title="View Client" ></span></a>
+					<a href="tax_edit_client.php?id='.$row->id.'" class="btn btn-success btn-sm"><span class="fa fa-edit"  data-toggle="tooltip" title="Edit Client" ></span></a>
+				</div>
+			</font>
 		</center>';
 
 		

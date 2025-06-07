@@ -12,7 +12,7 @@
         <td align="center">
           <font size="2" id="">
             <input type="text" style="width: 100%; text-align: center; box-sizing: border-box;"  
-                value="<?= number_format($quarter1_data['net_taxable_income'] - $quarter1_data['total_swt_it'],2) ?>" disabled id="#">
+                value="<?= number_format($quarter1_data['incometaxdue'] - $quarter1_data['total_swt_it'],2) ?>" disabled id="#">
           </font>
         </td>
     </tr>
