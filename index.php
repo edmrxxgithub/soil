@@ -42,6 +42,19 @@ if (isset($_POST['btn_login']))
           // header('refresh: 1;ui/dashboard.php');
           // header('refresh: 1;ui/soil/dashboard.php');
           header('refresh: 1;ui/soil/tax_view_client.php?id=1');
+
+
+          if ($row['user_level_id'] == 3) 
+          {
+            // header('refresh: 1;ui/soil/dashboard.php');
+            header('refresh: 1;ui/soil/dashboard_coordinator.php');
+            
+          }
+          else
+          {
+            // header('refresh: 1;ui/soil/dashboard.php');
+            header('refresh: 1;ui/soil/tax_view_client.php?id=1');
+          }
           
           
         }

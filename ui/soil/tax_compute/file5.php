@@ -20,7 +20,8 @@ function check_format_cell_data(string $cell, \PhpOffice\PhpSpreadsheet\Workshee
     }
 }
 
-if (!isset($_POST['branchid'], $_POST['clientid'], $_POST['businessid'], $_FILES['file']) || !isset($_SESSION['userid'])) {
+if (!isset($_POST['branchid'], $_POST['clientid'], $_POST['businessid'], $_FILES['file']) || !isset($_SESSION['userid'])) 
+{
     die('Missing required parameters.');
 }
 

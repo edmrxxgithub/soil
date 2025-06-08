@@ -90,7 +90,7 @@ $row=$select->fetch(PDO::FETCH_OBJ);
 
         <div class="card card-grey card-outline">
               <div class="card-header" style="background-color:rgba(50,63,81,255);">
-                <h5 class="m-0 text-white" ><a href="viewprofile.php" class="text-primary text-white">View Profile</a> / Edit Profile</h5>
+                <h5 class="m-0 text-white" ><a href="viewprofile.php" class="text-white">View Profile</a> / Edit Profile</h5>
               </div>
             <div class="card-body">
 

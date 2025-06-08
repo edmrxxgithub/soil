@@ -60,7 +60,7 @@
 <br>
 
 <center>
-  <button class="btn btn-md btn-success" id="btn_edit_quarter1">Edit</button>
+  <!-- <button class="btn btn-md btn-success" id="btn_edit_quarter1">Edit</button> -->
   <!-- <button class="btn btn-md btn-danger"  id="btn_undo_q1">Undo</button> -->
 </center>
 

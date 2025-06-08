@@ -521,33 +521,52 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 <!-- ACCOUNTS MODULE OPEN -->
-<li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Accounts module
-                <i class="fas fa-angle-left right"></i>
-              </p>
+  <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="nav-icon fas fa-book"></i>
+          <p>
+            Accounts module
+            <i class="fas fa-angle-left right"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">
+            <a href="accounts_payables.php" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Payables</p>
             </a>
-            <ul class="nav nav-treeview">
-              
-              <li class="nav-item">
-                <a href="accounts_payables.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Payables</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="accounts_receivables.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Receivables</p>
-                </a>
-              </li>
-              
-            </ul>
           </li>
+          <li class="nav-item">
+            <a href="accounts_receivables.php" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Receivables</p>
+            </a>
+          </li>
+        </ul>
+  </li>
 <!-- ACCOUNTS MODULE CLOSE -->
+
+
+
+<!-- COORDINATOR MODULE OPEN-->
+  <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="nav-icon fas fa-user"></i>
+          <p>
+            Coordinator module
+            <i class="fas fa-angle-left right"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">
+            <a href="coordinator_view_user.php" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>View coordinators</p>
+            </a>
+          </li>
+        </ul>
+  </li>
+<!-- COORDINATOR MODULE CLOSE-->
 
 
 
@@ -566,7 +585,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 <a href="view_accounts.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>View Accounts</p>
+                  <p>View accounts</p>
                 </a>
               </li>
 

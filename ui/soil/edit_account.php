@@ -99,7 +99,7 @@ $row=$select->fetch(PDO::FETCH_OBJ);
 
             <div class="card card-grey card-outline">
                 <div class="card-header" style="background-color:rgba(50,63,81,255);">
-                    <h5 class="m-0 text-white" ><a href="view_accounts.php" class="text-primary text-white">View Accounts</a> / Edit Accounts</h5>
+                    <h5 class="m-0 text-white" ><a href="view_accounts.php" class="text-white">View Accounts</a> / Edit Accounts</h5>
                 </div>
                 <!-- card body open --> 
                 <form action="" method="post">
