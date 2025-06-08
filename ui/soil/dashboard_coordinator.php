@@ -26,7 +26,8 @@ if ($userlevelid == 3)
 }
 else
 {
-  header('location:../../logout.php');
+  // header('location:../../logout.php');
+  header('location:logout.php');
 }
 
 
