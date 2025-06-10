@@ -301,6 +301,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
 
 
+            <li class="nav-item">
+              <!-- <a href="change_password.php" class="nav-link"> -->
+              <a href="coordinator_change_password.php" class="nav-link">
+                <!-- <i class="far fa-circle nav-icon"></i> -->
+                <i class="fas fa-key nav-icon"></i>
+                <p>Change password</p>
+              </a>
+            </li>
 
     
           <li class="nav-item">

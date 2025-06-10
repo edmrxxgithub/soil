@@ -17,8 +17,6 @@ else
 }
 
 
-
-
 if ($userlevelid == 3) 
 {
   // include_once "header.php";
@@ -41,6 +39,10 @@ function fetch_num_branch($pdo,$id)
 }
 
 
+
+
+
+
 ?>
 
 <!-- ChartJS -->
@@ -52,7 +54,7 @@ function fetch_num_branch($pdo,$id)
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Coordinator Dashboard</h1>
+          <!-- <h1 class="m-0">Coordinator Dashboard</h1> -->
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -131,7 +133,7 @@ while ($row1 = $select1->fetch(PDO::FETCH_OBJ))
       <h3 class="text-black">
           <center>
             <!-- <a href="tax_view_client_business.php?id=<?= $row1->id ?>"> -->
-            <a href="#">
+            <a href="coordinator_view_client_data.php?businessid=<?= $row1->id ?>">
                 <image src="images/<?php echo $row1->image;?>" class="img-rounded" width="200px" height="150px/">
             </a>
           </center>
@@ -139,19 +141,19 @@ while ($row1 = $select1->fetch(PDO::FETCH_OBJ))
 
       <table border="0" width="100%">
         <tr>
-          <td width="40%">Business name : </td>
+          <td width="20%">Business name : </td>
           <td style="font-weight:bold;">&emsp;<?= $row1->name ?></td>
         </tr>
         <tr>
-          <td width="40%">Address : </td>
+          <td width="20%">Address : </td>
           <td style="font-weight:bold;">&emsp;<?= $row1->address ?></td>
         </tr>
         <tr>
-          <td>No of branch : </td>
+          <td width="20%">No of branch : </td>
           <td style="font-weight:bold;">&emsp;<?= $select2num ?></td>
         </tr>
         <tr>
-          <td>TIN : </td>
+          <td width="20%">TIN : </td>
           <td style="font-weight:bold;">&emsp;<?= $row1->tin ?></td>
         </tr>
         
